@@ -4,15 +4,13 @@ const nextConfig: NextConfig = {
   output: "standalone",
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
   },
   poweredByHeader: false,
   reactStrictMode: true,
+  compress: true,
+  experimental: {
+    optimizeCss: true,
+  },
 };
 
 export default nextConfig;
