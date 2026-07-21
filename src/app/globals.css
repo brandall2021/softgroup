@@ -274,6 +274,23 @@ body {
   50% { background-position: 100% 50%; }
 }
 
+/* Touch-safe hover variants — only fire on devices with hover capability + fine pointer */
+@custom-variant safe-hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+@custom-variant group-safe-hover {
+  @media (hover: hover) and (pointer: fine) {
+    .group:hover & {
+      @slot;
+    }
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

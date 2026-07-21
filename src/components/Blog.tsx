@@ -1,54 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Calendar } from "lucide-react";
-
-interface BlogPost {
-  title: string;
-  category: string;
-  categoryColor: string;
-  date: string;
-  excerpt: string;
-  gradient: string;
-}
-
-const posts: BlogPost[] = [
-  {
-    title: "Cómo los Agentes IA están revolucionando la atención al cliente",
-    category: "Inteligencia Artificial",
-    categoryColor: "bg-violet/10 text-violet",
-    date: "15 Jul 2026",
-    excerpt:
-      "Descubre cómo los agentes inteligentes están transformando la forma en que las empresas interactúan con sus clientes.",
-    gradient: "from-brand via-brand-light to-cyan",
-  },
-  {
-    title: "Guía completa de ciberseguridad empresarial en 2026",
-    category: "Ciberseguridad",
-    categoryColor: "bg-cyan/10 text-cyan",
-    date: "10 Jul 2026",
-    excerpt:
-      "Las amenazas evolucionan constantemente. Conoce las mejores prácticas para proteger tu empresa.",
-    gradient: "from-cyan via-brand to-violet",
-  },
-  {
-    title: "Cloud Computing: Migración exitosa paso a paso",
-    category: "Cloud",
-    categoryColor: "bg-brand/10 text-brand",
-    date: "5 Jul 2026",
-    excerpt:
-      "Planifica y ejecuta la migración de tu infraestructura a la nube con esta guía práctica.",
-    gradient: "from-violet via-brand to-cyan",
-  },
-];
+import { articles } from "../config/blog";
 
 export default function Blog() {
+  const prefersReduced = useReducedMotion();
+
   return (
     <section id="blog" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: prefersReduced ? 0 : 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="mb-3 text-sm font-semibold uppercase tracking-widest text-brand"
@@ -56,10 +20,10 @@ export default function Blog() {
             Blog
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: prefersReduced ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: prefersReduced ? 0 : 0.1 }}
             className="text-3xl font-bold tracking-tight text-navy sm:text-4xl lg:text-5xl"
           >
             Últimas noticias e{" "}
@@ -68,14 +32,14 @@ export default function Blog() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post, i) => (
+          {articles.map((post, i) => (
             <motion.article
               key={post.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: prefersReduced ? 0 : 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12 }}
-              className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/60"
+              transition={{ delay: prefersReduced ? 0 : i * 0.12 }}
+              className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-200 safe-hover:-translate-y-1 safe-hover:shadow-xl safe-hover:shadow-slate-200/60"
             >
               <div
                 className={`relative h-48 bg-gradient-to-br ${post.gradient}`}
@@ -96,7 +60,7 @@ export default function Blog() {
                   </span>
                 </div>
 
-                <h3 className="mb-3 text-lg font-bold leading-snug text-navy transition-colors group-hover:text-brand">
+                <h3 className="mb-3 text-lg font-bold leading-snug text-navy transition-all duration-200 group-safe-hover:text-brand">
                   {post.title}
                 </h3>
                 <p className="mb-5 text-sm leading-relaxed text-slate-500">
@@ -105,10 +69,10 @@ export default function Blog() {
 
                 <a
                   href="#"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-brand-dark"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all duration-200 safe-hover:text-brand-dark"
                 >
                   Leer más
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-safe-hover:translate-x-0.5" />
                 </a>
               </div>
             </motion.article>
@@ -118,10 +82,10 @@ export default function Blog() {
         <div className="mt-14 text-center">
           <motion.a
             href="#"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: prefersReduced ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-8 py-3 text-sm font-semibold text-navy transition-all duration-200 hover:border-brand hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-brand/20"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-8 py-3 text-sm font-semibold text-navy transition-all duration-200 safe-hover:border-brand safe-hover:bg-brand safe-hover:text-white safe-hover:shadow-lg safe-hover:shadow-brand/20"
           >
             Ver todos los artículos
             <ArrowRight className="h-4 w-4" />

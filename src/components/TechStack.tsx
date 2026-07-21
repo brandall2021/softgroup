@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface TechRow {
   items: string[];
@@ -36,7 +36,7 @@ const techRows: TechRow[] = [
   },
 ];
 
-function MarqueeRow({ row }: { row: TechRow }) {
+function MarqueeRow({ row, prefersReduced }: { row: TechRow; prefersReduced: boolean }) {
   const doubled = [...row.items, ...row.items, ...row.items];
   const duration = (row.items.length * row.speed) / 10;
 
@@ -44,9 +44,13 @@ function MarqueeRow({ row }: { row: TechRow }) {
     <div className="relative overflow-hidden py-3 group">
       <div
         className="flex gap-4 w-max"
-        style={{
-          animation: `${row.direction === "left" ? "marquee-left" : "marquee-right"} ${duration}s linear infinite`,
-        }}
+        style={
+          prefersReduced
+            ? { animation: "none" }
+            : {
+                animation: `${row.direction === "left" ? "marquee-left" : "marquee-right"} ${duration}s linear infinite`,
+              }
+        }
       >
         {doubled.map((tech, i) => (
           <div
@@ -69,6 +73,8 @@ function MarqueeRow({ row }: { row: TechRow }) {
 }
 
 export default function TechStack() {
+  const prefersReduced = useReducedMotion();
+
   return (
     <section className="py-24 md:py-32 bg-surface overflow-hidden">
       <style>{`
@@ -84,10 +90,10 @@ export default function TechStack() {
 
       <div className="max-w-7xl mx-auto px-6 mb-16">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: prefersReduced ? 0 : 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: prefersReduced ? 0.1 : 0.6 }}
           className="text-center"
         >
           <span className="inline-block text-sm font-semibold tracking-widest uppercase text-brand mb-4">
@@ -104,16 +110,16 @@ export default function TechStack() {
 
       <div className="max-w-5xl mx-auto space-y-1">
         {techRows.map((row, i) => (
-          <MarqueeRow key={i} row={row} />
+          <MarqueeRow key={i} row={row} prefersReduced={!!prefersReduced} />
         ))}
       </div>
 
       <div className="max-w-5xl mx-auto mt-16">
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={{ opacity: prefersReduced ? 1 : 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: prefersReduced ? 0.1 : 0.6, delay: prefersReduced ? 0 : 0.3 }}
           className="flex flex-wrap justify-center gap-4 text-sm text-slate-400"
         >
           <span className="flex items-center gap-2">

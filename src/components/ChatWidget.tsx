@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { MessageCircle, X, Send } from "lucide-react";
 
 interface ChatMessage {
@@ -37,6 +37,7 @@ export default function ChatWidget() {
   const [inputValue, setInputValue] = useState("");
   const hasGreetedRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prefersReduced = useReducedMotion();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -131,9 +132,9 @@ export default function ChatWidget() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: prefersReduced ? 1 : 0.9, y: prefersReduced ? 0 : 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            exit={{ opacity: 0, scale: prefersReduced ? 1 : 0.9, y: prefersReduced ? 0 : 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-[380px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-black/15 sm:right-6"
             style={{ maxHeight: "500px" }}
@@ -162,7 +163,7 @@ export default function ChatWidget() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ minHeight: "300px" }}>
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ minHeight: "300px" }} aria-live="polite" aria-label="Mensajes del chat">
               {messages.map((msg) => (
                 <div key={msg.id}>
                   {msg.sender === "bot" ? (
@@ -200,6 +201,7 @@ export default function ChatWidget() {
                                 <button
                                   key={qr.value}
                                   onClick={() => handleQuickReply(qr.value)}
+                                  aria-label={qr.label}
                                   className="rounded-full border border-brand/20 bg-brand/5 px-3.5 py-1.5 text-xs font-semibold text-brand transition-all hover:bg-brand hover:text-white"
                                 >
                                   {qr.label}
@@ -235,6 +237,7 @@ export default function ChatWidget() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Escribe un mensaje..."
+                  aria-label="Escribe un mensaje"
                   className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/10"
                 />
                 <button
@@ -254,8 +257,8 @@ export default function ChatWidget() {
       {/* Floating Button */}
       <motion.button
         onClick={toggleChat}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={prefersReduced ? undefined : { scale: 1.05 }}
+        whileTap={prefersReduced ? undefined : { scale: 0.95 }}
         className="fixed bottom-6 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-lg shadow-brand/30 transition-colors hover:bg-brand-dark sm:right-6"
         aria-label={isOpen ? "Cerrar chat" : "Abrir chat"}
       >
@@ -263,20 +266,20 @@ export default function ChatWidget() {
           {isOpen ? (
             <motion.div
               key="close"
-              initial={{ rotate: -90, opacity: 0 }}
+              initial={{ rotate: prefersReduced ? 0 : -90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
+              exit={{ rotate: prefersReduced ? 0 : 90, opacity: 0 }}
+              transition={{ duration: prefersReduced ? 0.1 : 0.15 }}
             >
               <X className="h-5.5 w-5.5" />
             </motion.div>
           ) : (
             <motion.div
               key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
+              initial={{ rotate: prefersReduced ? 0 : 90, opacity: 0 }}
               animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
+              exit={{ rotate: prefersReduced ? 0 : -90, opacity: 0 }}
+              transition={{ duration: prefersReduced ? 0.1 : 0.15 }}
             >
               <MessageCircle className="h-5.5 w-5.5" />
             </motion.div>
@@ -291,12 +294,15 @@ export default function ChatWidget() {
 
 function BudgetMiniForm() {
   const [submitted, setSubmitted] = useState(false);
+  const prefersReduced = useReducedMotion();
 
   if (submitted) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 4 }}
+        initial={{ opacity: 0, y: prefersReduced ? 0 : 4 }}
         animate={{ opacity: 1, y: 0 }}
+        role="status"
+        aria-live="polite"
         className="rounded-xl bg-emerald-50 p-3"
       >
         <p className="text-xs font-medium text-emerald-700">
@@ -308,29 +314,39 @@ function BudgetMiniForm() {
 
   return (
     <motion.form
-      initial={{ opacity: 0, y: 4 }}
+      initial={{ opacity: 0, y: prefersReduced ? 0 : 4 }}
       animate={{ opacity: 1, y: 0 }}
       onSubmit={(e) => {
         e.preventDefault();
         setSubmitted(true);
       }}
+      aria-label="Formulario de solicitud de presupuesto"
       className="space-y-2.5 rounded-xl border border-slate-100 bg-slate-50 p-3"
     >
+      <label htmlFor="budget-name" className="sr-only">Nombre</label>
       <input
+        id="budget-name"
         type="text"
         required
         placeholder="Tu nombre"
+        aria-label="Tu nombre"
         className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 placeholder:text-slate-400 outline-none focus:border-brand"
       />
+      <label htmlFor="budget-email" className="sr-only">Email</label>
       <input
+        id="budget-email"
         type="email"
         required
         placeholder="Tu email"
+        aria-label="Tu email"
         className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 placeholder:text-slate-400 outline-none focus:border-brand"
       />
+      <label htmlFor="budget-service" className="sr-only">Servicio</label>
       <select
+        id="budget-service"
         required
         defaultValue=""
+        aria-label="Selecciona un servicio"
         className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 outline-none focus:border-brand"
       >
         <option value="" disabled>
@@ -344,6 +360,7 @@ function BudgetMiniForm() {
       </select>
       <button
         type="submit"
+        aria-label="Enviar solicitud de presupuesto"
         className="w-full rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
       >
         Enviar solicitud
@@ -354,12 +371,15 @@ function BudgetMiniForm() {
 
 function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const prefersReduced = useReducedMotion();
 
   if (submitted) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 4 }}
+        initial={{ opacity: 0, y: prefersReduced ? 0 : 4 }}
         animate={{ opacity: 1, y: 0 }}
+        role="status"
+        aria-live="polite"
         className="rounded-xl bg-emerald-50 p-3"
       >
         <p className="text-xs font-medium text-emerald-700">
@@ -371,28 +391,36 @@ function ContactForm() {
 
   return (
     <motion.form
-      initial={{ opacity: 0, y: 4 }}
+      initial={{ opacity: 0, y: prefersReduced ? 0 : 4 }}
       animate={{ opacity: 1, y: 0 }}
       onSubmit={(e) => {
         e.preventDefault();
         setSubmitted(true);
       }}
+      aria-label="Formulario de contacto para llamada"
       className="space-y-2.5 rounded-xl border border-slate-100 bg-slate-50 p-3"
     >
+      <label htmlFor="contact-name" className="sr-only">Nombre</label>
       <input
+        id="contact-name"
         type="text"
         required
         placeholder="Tu nombre"
+        aria-label="Tu nombre"
         className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 placeholder:text-slate-400 outline-none focus:border-brand"
       />
+      <label htmlFor="contact-phone" className="sr-only">Teléfono</label>
       <input
+        id="contact-phone"
         type="tel"
         required
         placeholder="Tu número de teléfono"
+        aria-label="Tu número de teléfono"
         className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 placeholder:text-slate-400 outline-none focus:border-brand"
       />
       <button
         type="submit"
+        aria-label="Solicitar llamada"
         className="w-full rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
       >
         Solicitar llamada

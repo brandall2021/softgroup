@@ -39,6 +39,17 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "SoftGroup" }],
   creator: "SoftGroup",
+  publisher: "SoftGroup",
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "SoftGroup",
+  },
   openGraph: {
     type: "website",
     locale: "es_ES",
@@ -99,12 +110,18 @@ export default function RootLayout({
                 "https://linkedin.com/company/softgroup",
                 "https://instagram.com/softgroup",
                 "https://github.com/softgroup",
+                "https://facebook.com/softgroup",
               ],
               contactPoint: {
                 "@type": "ContactPoint",
                 contactType: "customer service",
                 availableLanguage: ["Spanish", "English"],
               },
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "EC",
+              },
+              priceRange: "$$-$$$",
             }),
           }}
         />

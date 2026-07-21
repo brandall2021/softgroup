@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 interface Node {
@@ -38,34 +38,37 @@ function createNodes(width: number, height: number, count: number): Node[] {
   return nodes;
 }
 
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.75, ease: [0.23, 1, 0.32, 1] as const },
-  },
-};
-
-const fade = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.9, ease: "easeOut" as const },
-  },
-};
-
 export default function Hero() {
+  const prefersReduced = useReducedMotion();
+
+  const stagger = {
+    hidden: {},
+    visible: {
+      transition: prefersReduced
+        ? { delayChildren: 0.1 }
+        : {
+            staggerChildren: 0.1,
+            delayChildren: 0.2,
+          },
+    },
+  };
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: prefersReduced ? 0 : 28 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: prefersReduced ? 0.1 : 0.6, ease: [0.23, 1, 0.32, 1] as const },
+    },
+  };
+
+  const fade = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: prefersReduced ? 0.1 : 0.6, ease: [0.23, 1, 0.32, 1] as const },
+    },
+  };
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const nodesRef = useRef<Node[]>([]);
   const rafRef = useRef<number>(0);
@@ -100,6 +103,45 @@ export default function Hero() {
     };
 
     resize();
+
+    if (prefersReduced) {
+      const rect = canvas.parentElement?.getBoundingClientRect();
+      if (rect) {
+        const w = rect.width;
+        const h = rect.height;
+        ctx.clearRect(0, 0, w, h);
+
+        for (const node of nodesRef.current) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+          ctx.fillStyle = node.color;
+          ctx.fill();
+        }
+
+        for (let i = 0; i < nodesRef.current.length; i++) {
+          for (let j = i + 1; j < nodesRef.current.length; j++) {
+            const a = nodesRef.current[i];
+            const b = nodesRef.current[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < CONNECTION_DISTANCE) {
+              const opacity = 1 - dist / CONNECTION_DISTANCE;
+              ctx.strokeStyle = `rgba(0, 87, 217, ${0.14 * opacity})`;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      return () => {
+        window.removeEventListener("resize", resize);
+      };
+    }
 
     const animate = () => {
       const rect = canvas.parentElement?.getBoundingClientRect();
@@ -161,7 +203,7 @@ export default function Hero() {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", resize);
     };
-  }, [getParticleCount]);
+  }, [getParticleCount, prefersReduced]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -221,6 +263,7 @@ export default function Hero() {
                 e.preventDefault();
                 scrollTo("contacto");
               }}
+              aria-label="Empezar ahora — solicitar presupuesto"
               className="group btn-glow inline-flex items-center justify-center gap-3 rounded-full bg-brand px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/25 active:scale-[0.97]"
             >
               Solicitar presupuesto
@@ -234,6 +277,7 @@ export default function Hero() {
                 e.preventDefault();
                 scrollTo("servicios");
               }}
+              aria-label="Ver servicios"
               className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-white/20 hover:bg-white/10 active:scale-[0.97]"
             >
               Conocer nuestros servicios

@@ -2,25 +2,7 @@
 
 import { useState } from "react";
 import { MapPin, Phone, Mail, ArrowRight } from "lucide-react";
-
-const services = [
-  "Desarrollo Web",
-  "Desarrollo Móvil",
-  "Agentes de IA",
-  "Ciberseguridad",
-  "Cloud Computing",
-  "Redes e Infraestructura",
-  "Consultoría Tecnológica",
-  "Automatización",
-];
-
-const company = [
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contacto", href: "#contacto" },
-  { label: "Carreras", href: "#carreras" },
-];
+import { footerLinks, socialLinks } from "../config/navigation";
 
 function LinkedinIcon({ className }: { className?: string }) {
   return (
@@ -54,12 +36,12 @@ function FacebookIcon({ className }: { className?: string }) {
   );
 }
 
-const socials = [
-  { icon: LinkedinIcon, href: "https://linkedin.com/company/softgroup", label: "LinkedIn" },
-  { icon: InstagramIcon, href: "https://instagram.com/softgroup", label: "Instagram" },
-  { icon: GithubIcon, href: "https://github.com/softgroup", label: "GitHub" },
-  { icon: FacebookIcon, href: "https://facebook.com/softgroup", label: "Facebook" },
-];
+const socialIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  LinkedIn: LinkedinIcon,
+  Instagram: InstagramIcon,
+  GitHub: GithubIcon,
+  Facebook: FacebookIcon,
+};
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -91,18 +73,21 @@ export default function Footer() {
               y consultoría tecnológica de alto rendimiento.
             </p>
             <div className="mt-6 flex items-center gap-3">
-              {socials.map(({ icon: Icon, href, label }) => (
+              {socialLinks.map(({ href, label }) => {
+                const Icon = socialIcons[label];
+                return Icon ? (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-slate-400 transition-all duration-200 hover:bg-brand/20 hover:text-brand"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-slate-400 transition-all duration-200 safe-hover:bg-brand/20 safe-hover:text-brand safe-hover:scale-110"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
-              ))}
+                ) : null;
+              })}
             </div>
           </div>
 
@@ -111,12 +96,12 @@ export default function Footer() {
               Servicios
             </h3>
             <ul className="mt-5 flex flex-col gap-3">
-              {services.map((service) => (
+              {footerLinks.services.map((service) => (
                 <li key={service}>
                   <a
                     href="#servicios"
                     onClick={(e) => { e.preventDefault(); scrollTo("#servicios"); }}
-                    className="text-sm text-slate-400 transition-colors duration-200 hover:text-white"
+                    className="text-sm text-slate-400 transition-all duration-200 safe-hover:text-white"
                   >
                     {service}
                   </a>
@@ -130,12 +115,12 @@ export default function Footer() {
               Empresa
             </h3>
             <ul className="mt-5 flex flex-col gap-3">
-              {company.map(({ label, href }) => (
+              {footerLinks.company.map(({ label, href }) => (
                 <li key={label}>
                   <a
                     href={href}
                     onClick={(e) => { e.preventDefault(); scrollTo(href); }}
-                    className="text-sm text-slate-400 transition-colors duration-200 hover:text-white"
+                    className="text-sm text-slate-400 transition-all duration-200 safe-hover:text-white"
                   >
                     {label}
                   </a>
@@ -155,13 +140,13 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3 text-sm text-slate-400">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                <a href="tel:+525512345678" className="transition-colors hover:text-white">
+                <a href="tel:+525512345678" className="transition-all duration-200 safe-hover:text-white">
                   +52 55 1234 5678
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm text-slate-400">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                <a href="mailto:hola@softgroup.com" className="transition-colors hover:text-white">
+                <a href="mailto:hola@softgroup.com" className="transition-all duration-200 safe-hover:text-white">
                   hola@softgroup.com
                 </a>
               </li>
@@ -172,7 +157,11 @@ export default function Footer() {
                 Newsletter
               </h4>
               <form onSubmit={handleNewsletter} className="mt-3 flex gap-2">
+                <label htmlFor="footer-newsletter" className="sr-only">
+                  Email para newsletter
+                </label>
                 <input
+                  id="footer-newsletter"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -182,7 +171,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand text-white transition-all hover:bg-brand-dark"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand text-white transition-all duration-200 safe-hover:bg-brand-dark"
                   aria-label="Suscribirse al newsletter"
                 >
                   <ArrowRight className="h-4 w-4" />
@@ -199,19 +188,22 @@ export default function Footer() {
           <div className="flex items-center gap-6">
             <a
               href="#"
-              className="text-xs text-slate-500 transition-colors hover:text-slate-300"
+              aria-label="Política de Privacidad"
+              className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
             >
               Política de Privacidad
             </a>
             <a
               href="#"
-              className="text-xs text-slate-500 transition-colors hover:text-slate-300"
+              aria-label="Términos de Uso"
+              className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
             >
               Términos de Uso
             </a>
             <a
               href="#"
-              className="text-xs text-slate-500 transition-colors hover:text-slate-300"
+              aria-label="Política de Cookies"
+              className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
             >
               Cookies
             </a>

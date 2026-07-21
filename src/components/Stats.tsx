@@ -1,55 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import {
-  FolderCheck,
-  Users,
-  Calendar,
-  Clock,
-  Brain,
-} from "lucide-react";
-
-interface Stat {
-  value: number;
-  prefix?: string;
-  suffix?: string;
-  label: string;
-  icon: React.ReactNode;
-}
-
-const stats: Stat[] = [
-  {
-    value: 150,
-    prefix: "+",
-    label: "Proyectos Entregados",
-    icon: <FolderCheck className="w-7 h-7" />,
-  },
-  {
-    value: 50,
-    prefix: "+",
-    label: "Clientes Satisfechos",
-    icon: <Users className="w-7 h-7" />,
-  },
-  {
-    value: 5,
-    prefix: "+",
-    label: "Años de Experiencia",
-    icon: <Calendar className="w-7 h-7" />,
-  },
-  {
-    value: 10000,
-    prefix: "+",
-    label: "Horas de Desarrollo",
-    icon: <Clock className="w-7 h-7" />,
-  },
-  {
-    value: 30,
-    prefix: "+",
-    label: "Agentes IA Implementados",
-    icon: <Brain className="w-7 h-7" />,
-  },
-];
+import { motion, useReducedMotion } from "framer-motion";
+import { stats, type Stat } from "../config/stats";
 
 function formatNumber(n: number): string {
   if (n >= 1000) {
@@ -88,22 +41,25 @@ function StatCard({
   stat,
   index,
   inView,
+  prefersReduced,
 }: {
   stat: Stat;
   index: number;
   inView: boolean;
+  prefersReduced: boolean;
 }) {
   const count = useCountUp(stat.value, inView);
+  const Icon = stat.icon;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.12 }}
+      initial={{ opacity: 0, y: prefersReduced ? 0 : 30 }}
+      animate={inView ? { opacity: 1, y: prefersReduced ? 0 : 0 } : {}}
+      transition={{ duration: prefersReduced ? 0.1 : 0.5, delay: prefersReduced ? 0 : index * 0.12 }}
       className="relative group text-center p-8 glass-card-dark rounded-2xl card-premium"
     >
       <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/10 text-brand mb-5 group-hover:bg-white/15 transition-colors">
-        {stat.icon}
+        <Icon className={stat.iconClassName ?? "w-7 h-7"} />
       </div>
 
       <div className="text-4xl md:text-5xl font-bold mb-3 gradient-text-animated">
@@ -122,6 +78,7 @@ function StatCard({
 export default function Stats() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  const prefersReduced = useReducedMotion();
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -150,7 +107,7 @@ export default function Stats() {
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {stats.map((stat, i) => (
-            <StatCard key={stat.label} stat={stat} index={i} inView={inView} />
+            <StatCard key={stat.label} stat={stat} index={i} inView={inView} prefersReduced={!!prefersReduced} />
           ))}
         </div>
       </div>

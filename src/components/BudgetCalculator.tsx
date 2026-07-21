@@ -2,38 +2,12 @@
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Check,
-  ChevronRight,
-  ChevronLeft,
-  Globe,
-  Monitor,
-  ShoppingCart,
-  Code2,
-  Smartphone,
-  Brain,
-  ArrowRight,
-  Calendar,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-
-/* ── Types ─────────────────────────────────────────────────── */
-
-interface ProjectType {
-  id: string;
-  label: string;
-  icon: LucideIcon;
-  min: number;
-  max: number;
-}
-
-interface Feature {
-  id: string;
-  label: string;
-  price: number;
-}
-
-/* ── Data ──────────────────────────────────────────────────── */
+import { ChevronRight, ChevronLeft, Globe, Monitor, ShoppingCart, Code2, Smartphone, Brain } from "lucide-react";
+import type { ProjectType, Feature } from "../types/budget";
+import StepIndicator from "./budget/StepIndicator";
+import ProjectTypeStep from "./budget/ProjectTypeStep";
+import FeaturesStep from "./budget/FeaturesStep";
+import BudgetSummary from "./budget/BudgetSummary";
 
 const projectTypes: ProjectType[] = [
   { id: "landing", label: "Landing Page", icon: Globe, min: 500, max: 1500 },
@@ -52,71 +26,6 @@ const features: Feature[] = [
   { id: "i18n", label: "Multiidioma", price: 600 },
   { id: "seo", label: "SEO avanzado", price: 500 },
 ];
-
-/* ── Helpers ───────────────────────────────────────────────── */
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-/* ── Step indicator ────────────────────────────────────────── */
-
-function StepIndicator({ current, total }: { current: number; total: number }) {
-  return (
-    <div className="flex items-center gap-3">
-      {Array.from({ length: total }, (_, i) => (
-        <div key={i} className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
-                i + 1 <= current
-                  ? "bg-brand text-white"
-                  : "bg-slate-100 text-slate-400"
-              }`}
-            >
-              {i + 1 < current ? <Check className="h-3.5 w-3.5" /> : i + 1}
-            </div>
-            <span
-              className={`hidden text-xs font-medium sm:inline ${
-                i + 1 <= current ? "text-brand" : "text-slate-400"
-              }`}
-            >
-              {i === 0 ? "Tipo" : i === 1 ? "Extras" : "Resultado"}
-            </span>
-          </div>
-          {i < total - 1 && (
-            <div
-              className={`h-px w-6 transition-colors duration-300 sm:w-12 ${
-                i + 1 < current ? "bg-brand" : "bg-slate-200"
-              }`}
-            />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Animated price ────────────────────────────────────────── */
-
-function AnimatedPrice({ value }: { value: number }) {
-  return (
-    <motion.span
-      key={value}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl"
-    >
-      {formatCurrency(value)}
-    </motion.span>
-  );
-}
-
-/* ── Main component ────────────────────────────────────────── */
 
 export default function BudgetCalculator() {
   const [step, setStep] = useState(1);
@@ -155,7 +64,6 @@ export default function BudgetCalculator() {
       className="relative py-24 md:py-32 bg-white grid-pattern"
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -174,7 +82,6 @@ export default function BudgetCalculator() {
           </p>
         </motion.div>
 
-        {/* Calculator card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -182,236 +89,40 @@ export default function BudgetCalculator() {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="gradient-border rounded-3xl bg-white p-6 sm:p-8 shadow-xl shadow-black/5"
         >
-          {/* Step indicator */}
           <div className="mb-8 flex justify-center">
             <StepIndicator current={step} total={3} />
           </div>
 
-          {/* Steps */}
           <div className="relative min-h-[340px] overflow-hidden">
             <AnimatePresence mode="wait" initial={false}>
               {step === 1 && (
-                <motion.div
-                  key="step1"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 30 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                >
-                  <h3 className="mb-1 text-lg font-bold text-[#0F172A]">
-                    Selecciona el tipo de proyecto
-                  </h3>
-                  <p className="mb-6 text-sm text-slate-500">
-                    Elige la opción que mejor se adapte a lo que necesitas
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    {projectTypes.map((project) => {
-                      const Icon = project.icon;
-                      const isSelected = selectedType === project.id;
-                      return (
-                        <button
-                          key={project.id}
-                          onClick={() => setSelectedType(project.id)}
-                          className={`group relative flex flex-col items-center gap-3 rounded-2xl border-2 p-5 text-center transition-all duration-200 ${
-                            isSelected
-                              ? "border-brand bg-brand/5 shadow-md shadow-brand/10"
-                              : "border-slate-100 bg-white hover:border-brand/30 hover:bg-slate-50"
-                          }`}
-                        >
-                          <div
-                            className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors duration-200 ${
-                              isSelected
-                                ? "bg-brand/10"
-                                : "bg-slate-100 group-hover:bg-brand/5"
-                            }`}
-                          >
-                            <Icon
-                              className={`h-5 w-5 transition-colors duration-200 ${
-                                isSelected ? "text-brand" : "text-slate-400 group-hover:text-brand"
-                              }`}
-                              strokeWidth={1.8}
-                            />
-                          </div>
-                          <span
-                            className={`text-sm font-semibold transition-colors ${
-                              isSelected ? "text-brand" : "text-[#0F172A]"
-                            }`}
-                          >
-                            {project.label}
-                          </span>
-                          <span className="text-xs text-slate-400">
-                            {formatCurrency(project.min)} – {formatCurrency(project.max)}
-                          </span>
-                          {isSelected && (
-                            <motion.div
-                              layoutId="type-check"
-                              className="absolute right-2.5 top-2.5 flex h-5 w-5 items-center justify-center rounded-full bg-brand"
-                            >
-                              <Check className="h-3 w-3 text-white" />
-                            </motion.div>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </motion.div>
+                <ProjectTypeStep
+                  projectTypes={projectTypes}
+                  selectedType={selectedType}
+                  onSelect={setSelectedType}
+                />
               )}
 
               {step === 2 && (
-                <motion.div
-                  key="step2"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 30 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                >
-                  <h3 className="mb-1 text-lg font-bold text-[#0F172A]">
-                    Añade funcionalidades extra
-                  </h3>
-                  <p className="mb-6 text-sm text-slate-500">
-                    Selecciona las características que tu proyecto necesita
-                  </p>
-
-                  <div className="space-y-3">
-                    {features.map((feature) => {
-                      const isSelected = selectedFeatures.includes(feature.id);
-                      return (
-                        <button
-                          key={feature.id}
-                          onClick={() => toggleFeature(feature.id)}
-                          className={`flex w-full items-center justify-between rounded-xl border-2 p-4 text-left transition-all duration-200 ${
-                            isSelected
-                              ? "border-brand bg-brand/5"
-                              : "border-slate-100 bg-white hover:border-brand/30 hover:bg-slate-50"
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <div
-                              className={`flex h-5 w-5 items-center justify-center rounded-md border-2 transition-all duration-200 ${
-                                isSelected
-                                  ? "border-brand bg-brand"
-                                  : "border-slate-300"
-                              }`}
-                            >
-                              {isSelected && (
-                                <motion.div
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                >
-                                  <Check className="h-3 w-3 text-white" strokeWidth={3} />
-                                </motion.div>
-                              )}
-                            </div>
-                            <span className="text-sm font-medium text-[#0F172A]">
-                              {feature.label}
-                            </span>
-                          </div>
-                          <span
-                            className={`text-sm font-bold ${
-                              isSelected ? "text-brand" : "text-slate-400"
-                            }`}
-                          >
-                            +{formatCurrency(feature.price)}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </motion.div>
+                <FeaturesStep
+                  features={features}
+                  selectedFeatures={selectedFeatures}
+                  onToggle={toggleFeature}
+                />
               )}
 
               {step === 3 && (
-                <motion.div
-                  key="step3"
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 30 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="flex flex-col items-center text-center"
-                >
-                  <h3 className="mb-2 text-lg font-bold text-[#0F172A]">
-                    Estimación de tu proyecto
-                  </h3>
-                  <p className="mb-8 text-sm text-slate-500">
-                    Basado en{" "}
-                    <span className="font-semibold text-brand">
-                      {selectedProject?.label}
-                    </span>
-                    {selectedFeatures.length > 0 && (
-                      <>
-                        {" "}
-                        y{" "}
-                        <span className="font-semibold text-brand">
-                          {selectedFeatures.length} extra
-                          {selectedFeatures.length > 1 ? "s" : ""}
-                        </span>
-                      </>
-                    )}
-                  </p>
-
-                  {/* Price display */}
-                  <div className="mb-3 flex items-baseline gap-2">
-                    <AnimatedPrice value={totalMin} />
-                    <span className="text-lg text-slate-400">–</span>
-                    <AnimatedPrice value={totalMax} />
-                  </div>
-                  <p className="mb-10 text-xs text-slate-400">
-                    Precio estimado según alcance y complejidad
-                  </p>
-
-                  {/* Summary */}
-                  <div className="mb-8 w-full rounded-xl bg-slate-50 p-4 text-left">
-                    <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-400">
-                      Resumen
-                    </h4>
-                    <div className="space-y-1.5">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-slate-600">{selectedProject?.label}</span>
-                        <span className="font-medium text-[#0F172A]">
-                          {formatCurrency(selectedProject?.min ?? 0)} –{" "}
-                          {formatCurrency(selectedProject?.max ?? 0)}
-                        </span>
-                      </div>
-                      {selectedFeatures.map((fid) => {
-                        const f = features.find((feat) => feat.id === fid);
-                        if (!f) return null;
-                        return (
-                          <div key={fid} className="flex justify-between text-sm">
-                            <span className="text-slate-600">{f.label}</span>
-                            <span className="font-medium text-[#0F172A]">
-                              +{formatCurrency(f.price)}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* CTAs */}
-                  <div className="flex w-full flex-col gap-3 sm:flex-row">
-                    <a
-                      href="#contacto"
-                      className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/25"
-                    >
-                      Solicitar presupuesto exacto
-                      <ArrowRight className="h-4 w-4" />
-                    </a>
-                    <a
-                      href="#contacto"
-                      className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-slate-200 px-6 py-3.5 text-sm font-semibold text-[#0F172A] transition-all hover:border-brand/30 hover:bg-slate-50"
-                    >
-                      <Calendar className="h-4 w-4" />
-                      Agendar reunión gratuita
-                    </a>
-                  </div>
-                </motion.div>
+                <BudgetSummary
+                  selectedProject={selectedProject}
+                  selectedFeatures={selectedFeatures}
+                  features={features}
+                  totalMin={totalMin}
+                  totalMax={totalMax}
+                />
               )}
             </AnimatePresence>
           </div>
 
-          {/* Navigation */}
           {step < 3 && (
             <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
               <button

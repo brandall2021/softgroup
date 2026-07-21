@@ -3,16 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight } from "lucide-react";
-
-const navLinks = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Agentes IA", href: "#agentes-ia" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contacto", href: "#contacto" },
-];
+import { navLinks } from "../config/navigation";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -81,10 +72,10 @@ export default function Navbar() {
                   e.preventDefault();
                   scrollTo(link.href);
                 }}
-                className="group relative rounded-full px-3.5 py-2 text-[13px] font-medium text-slate-300 transition-colors duration-200 hover:text-white"
+                className="group relative rounded-full px-3.5 py-2 text-[13px] font-medium text-slate-300 transition-all duration-200 safe-hover:text-white"
               >
                 {link.label}
-                <span className="absolute bottom-1.5 left-3.5 h-px w-0 bg-brand transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:w-[calc(100%-1.75rem)]" />
+                <span className="absolute bottom-1.5 left-3.5 h-px w-0 bg-brand transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-safe-hover:w-[calc(100%-1.75rem)]" />
               </a>
             ))}
           </div>
@@ -96,7 +87,8 @@ export default function Navbar() {
                 e.preventDefault();
                 scrollTo("#contacto");
               }}
-              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/25 active:scale-[0.97]"
+              aria-label="Solicitar presupuesto"
+              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white transition-all duration-200 safe-hover:bg-brand-dark safe-hover:shadow-lg safe-hover:shadow-brand/25 active:scale-[0.97]"
             >
               Solicitar presupuesto
               <ChevronRight className="h-4 w-4" />
@@ -105,8 +97,10 @@ export default function Navbar() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 lg:hidden"
+            className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-white transition-all duration-200 safe-hover:bg-white/10 lg:hidden"
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             <span className="relative h-4 w-4">
               <motion.span
@@ -149,9 +143,13 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-40 bg-black/80 backdrop-blur-3xl lg:hidden"
-            onClick={() => setMobileOpen(false)}
           >
-            <div className="flex h-full flex-col items-center justify-center">
+            <nav
+              id="mobile-menu"
+              role="dialog"
+              aria-label="Menú de navegación móvil"
+              className="flex h-full flex-col items-center justify-center"
+            >
               <div className="flex flex-col items-center gap-2">
                 {navLinks.map((link, i) => (
                   <motion.a
@@ -169,7 +167,7 @@ export default function Navbar() {
                       e.preventDefault();
                       scrollTo(link.href);
                     }}
-                    className="text-2xl font-semibold text-white/80 transition-colors hover:text-white"
+                    className="text-2xl font-semibold text-white/80 transition-all duration-200 safe-hover:text-white"
                   >
                     {link.label}
                   </motion.a>
@@ -192,13 +190,14 @@ export default function Navbar() {
                     e.preventDefault();
                     scrollTo("#contacto");
                   }}
-                  className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-brand-dark active:scale-[0.97]"
+                  aria-label="Solicitar presupuesto"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 safe-hover:bg-brand-dark active:scale-[0.97]"
                 >
                   Solicitar presupuesto
                   <ChevronRight className="h-4 w-4" />
                 </a>
               </motion.div>
-            </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>

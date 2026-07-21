@@ -1,101 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  Globe,
-  Monitor,
-  Brain,
-  Workflow,
-  Server,
-  Shield,
-  type LucideIcon,
-} from "lucide-react";
-
-interface ServiceSubcategory {
-  label: string;
-}
-
-interface ServiceCard {
-  title: string;
-  icon: LucideIcon;
-  subcategories: ServiceSubcategory[];
-  featured?: boolean;
-}
-
-const services: ServiceCard[] = [
-  {
-    title: "Desarrollo Web",
-    icon: Globe,
-    subcategories: [
-      { label: "Landing Pages" },
-      { label: "Sitios corporativos" },
-      { label: "E-commerce" },
-      { label: "Portales institucionales" },
-      { label: "Aplicaciones web" },
-    ],
-  },
-  {
-    title: "Sistemas Informáticos",
-    icon: Monitor,
-    subcategories: [
-      { label: "ERP" },
-      { label: "CRM" },
-      { label: "Sistemas académicos" },
-      { label: "Sistemas médicos" },
-      { label: "Gestión documental" },
-      { label: "Paneles administrativos" },
-    ],
-  },
-  {
-    title: "Inteligencia Artificial",
-    icon: Brain,
-    featured: true,
-    subcategories: [
-      { label: "Agentes IA" },
-      { label: "Chatbots" },
-      { label: "RAG" },
-      { label: "Automatización" },
-      { label: "LLMs" },
-      { label: "Asistentes inteligentes" },
-    ],
-  },
-  {
-    title: "Automatización",
-    icon: Workflow,
-    subcategories: [
-      { label: "n8n" },
-      { label: "Workflows" },
-      { label: "Integración de sistemas" },
-      { label: "Webhooks" },
-      { label: "APIs" },
-      { label: "OCR" },
-    ],
-  },
-  {
-    title: "Networking e Infraestructura",
-    icon: Server,
-    subcategories: [
-      { label: "Cableado estructurado" },
-      { label: "Mikrotik" },
-      { label: "Cisco" },
-      { label: "VPN" },
-      { label: "Firewall" },
-      { label: "WiFi Empresarial" },
-    ],
-  },
-  {
-    title: "Cloud & Ciberseguridad",
-    icon: Shield,
-    subcategories: [
-      { label: "AWS" },
-      { label: "Azure" },
-      { label: "Google Cloud" },
-      { label: "Docker" },
-      { label: "Kubernetes" },
-      { label: "Auditorías de seguridad" },
-    ],
-  },
-];
+import { services } from "../config/services";
 
 const customEasing: [number, number, number, number] = [0.23, 1, 0.32, 1];
 
@@ -167,21 +73,21 @@ export default function Services() {
                     : { scale: 1.015, y: -2 }
                 }
                 transition={{ type: "spring", stiffness: 300, damping: 24 }}
-                className={`group relative rounded-[1.5rem] p-[1px] bg-gradient-to-br from-slate-200/50 to-slate-100/30 cursor-default active:scale-[0.98] transition-shadow duration-300 ${
+                className={`group relative rounded-[1.5rem] p-[1px] bg-gradient-to-br from-slate-200/50 to-slate-100/30 cursor-default active:scale-[0.98] transition-all duration-200 safe-hover:shadow-lg safe-hover:border-brand/20 ${
                   service.featured ? "lg:col-span-2" : ""
                 }`}
               >
                 <div
-                  className={`rounded-[calc(1.5rem-1px)] bg-white p-7 h-full transition-shadow duration-300 ${
+                  className={`rounded-[calc(1.5rem-1px)] bg-white p-7 h-full transition-all duration-200 ${
                     service.featured ? "md:p-9" : ""
-                  } group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_20px_-4px_rgba(0,87,217,0.1)]`}
+                  } group-safe-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_20px_-4px_rgba(0,87,217,0.1)]`}
                 >
                   <div
                     className={`flex items-center gap-4 mb-5 ${
                       service.featured ? "mb-7" : ""
                     }`}
                   >
-                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#0057D9]/10 transition-colors duration-300 group-hover:bg-[#0057D9]/15">
+                    <div                     className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#0057D9]/10 transition-all duration-200 group-safe-hover:bg-[#0057D9]/15">
                       <Icon
                         className="w-6 h-6 text-[#0057D9]"
                         strokeWidth={1.5}
@@ -209,7 +115,7 @@ export default function Services() {
                     {service.subcategories.map((sub) => (
                       <span
                         key={sub.label}
-                        className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-600 transition-all duration-200 group-hover:bg-[#0057D9]/5 group-hover:text-[#0057D9] group-hover:brightness-110"
+                        className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-600 transition-all duration-200 group-safe-hover:bg-[#0057D9]/5 group-safe-hover:text-[#0057D9]"
                       >
                         {sub.label}
                       </span>

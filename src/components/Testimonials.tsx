@@ -1,58 +1,14 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
-
-interface Testimonial {
-  text: string;
-  name: string;
-  role: string;
-  company: string;
-  initials: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    text: "SoftGroup transformó completamente nuestra operación. El sistema ERP que desarrollaron nos permitió reducir costos un 40%.",
-    name: "María García",
-    role: "Directora de Operaciones",
-    company: "TechCorp",
-    initials: "MG",
-  },
-  {
-    text: "El agente de IA que implementaron para atención al cliente ha reducido nuestra carga de trabajo un 60%.",
-    name: "Carlos Mendoza",
-    role: "CEO",
-    company: "InnovaSoft",
-    initials: "CM",
-  },
-  {
-    text: "Su expertise en redes y ciberseguridad nos dio la confianza para migrar toda nuestra infraestructura a la nube.",
-    name: "Ana López",
-    role: "CTO",
-    company: "DataSecure",
-    initials: "AL",
-  },
-  {
-    text: "La automatización de procesos con n8n nos ahorró más de 200 horas mensuales.",
-    name: "Roberto Sánchez",
-    role: "Gerente de TI",
-    company: "GrupoMax",
-    initials: "RS",
-  },
-  {
-    text: "Profesionales excepcionales. Entregaron el proyecto antes del plazo y con una calidad impresionante.",
-    name: "Laura Martínez",
-    role: "Fundadora",
-    company: "StartupHub",
-    initials: "LM",
-  },
-];
+import { testimonials } from "../config/testimonials";
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const prefersReduced = useReducedMotion();
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % testimonials.length);
@@ -73,7 +29,7 @@ export default function Testimonials() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: prefersReduced ? 0 : 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="mb-3 text-sm font-semibold uppercase tracking-widest text-brand"
@@ -81,10 +37,10 @@ export default function Testimonials() {
             Testimonios
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: prefersReduced ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: prefersReduced ? 0 : 0.1 }}
             className="text-3xl font-bold tracking-tight text-navy sm:text-4xl lg:text-5xl"
           >
             Lo que dicen nuestros{" "}
@@ -101,10 +57,10 @@ export default function Testimonials() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={current}
-                initial={{ opacity: 0, x: 40 }}
+                initial={{ opacity: 0, x: prefersReduced ? 0 : 40 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
+                exit={{ opacity: 0, x: prefersReduced ? 0 : -40 }}
+                transition={{ duration: prefersReduced ? 0.1 : 0.4, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
                 <div className="glass-card rounded-2xl p-8 sm:p-10 card-premium">

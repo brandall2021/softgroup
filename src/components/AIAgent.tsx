@@ -58,6 +58,7 @@ function NeuralVisualization() {
       {/* Rotating outer group */}
       <motion.div
         className="absolute w-[220px] h-[220px] md:w-[260px] md:h-[260px]"
+        style={{ willChange: "transform" }}
         animate={{ rotate: 360 }}
         transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
       >
@@ -82,7 +83,7 @@ function NeuralVisualization() {
                 duration: 2.5,
                 repeat: Infinity,
                 delay: node.delay,
-                ease: "easeInOut",
+                ease: [0.77, 0, 0.175, 1],
               }}
             />
           );
@@ -92,6 +93,7 @@ function NeuralVisualization() {
       {/* Rotating inner group (opposite direction) */}
       <motion.div
         className="absolute w-[130px] h-[130px] md:w-[150px] md:h-[150px]"
+        style={{ willChange: "transform" }}
         animate={{ rotate: -360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
       >
@@ -116,7 +118,7 @@ function NeuralVisualization() {
                 duration: 2,
                 repeat: Infinity,
                 delay: node.delay,
-                ease: "easeInOut",
+                ease: [0.77, 0, 0.175, 1],
               }}
             />
           );
@@ -205,13 +207,15 @@ function NeuralVisualization() {
       <div className="relative z-10 flex items-center justify-center">
         <motion.div
           className="absolute w-20 h-20 rounded-full bg-[#0057D9]/10 blur-xl"
+          style={{ willChange: "transform, opacity" }}
           animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 3, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
         />
         <motion.div
           className="absolute w-14 h-14 rounded-full bg-[#0057D9]/15 blur-md"
+          style={{ willChange: "transform" }}
           animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
         />
         <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-[#0057D9] to-[#06B6D4] flex items-center justify-center shadow-lg shadow-[#0057D9]/30">
           <span className="text-xs font-bold text-white tracking-wide">
@@ -224,7 +228,7 @@ function NeuralVisualization() {
       <motion.div
         className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2"
         animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 3, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
       >
         <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[#06B6D4]/70">
           IA Engine
@@ -264,7 +268,7 @@ export default function AIAgent() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="order-2 lg:order-1"
           >
             <NeuralVisualization />
@@ -320,7 +324,7 @@ export default function AIAgent() {
                   transition={{
                     duration: 0.4,
                     delay: 0.3 + i * 0.07,
-                    ease: "easeOut",
+                    ease: [0.23, 1, 0.32, 1],
                   }}
                   className="flex items-center gap-3"
                 >
