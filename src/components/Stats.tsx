@@ -100,13 +100,13 @@ function StatCard({
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.12 }}
-      className="relative group text-center p-8"
+      className="relative group text-center p-8 glass-card-dark rounded-2xl card-premium"
     >
       <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/10 text-brand mb-5 group-hover:bg-white/15 transition-colors">
         {stat.icon}
       </div>
 
-      <div className="text-4xl md:text-5xl font-bold mb-3 gradient-text">
+      <div className="text-4xl md:text-5xl font-bold mb-3 gradient-text-animated">
         {stat.prefix}
         {formatNumber(count)}
         {stat.suffix}

@@ -14,7 +14,10 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://softgroup.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
     default: "SoftGroup | Soluciones Digitales Inteligentes",
     template: "%s | SoftGroup",

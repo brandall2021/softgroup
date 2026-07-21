@@ -221,7 +221,7 @@ export default function Hero() {
                 e.preventDefault();
                 scrollTo("contacto");
               }}
-              className="group inline-flex items-center justify-center gap-3 rounded-full bg-brand px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/25 active:scale-[0.97]"
+              className="group btn-glow inline-flex items-center justify-center gap-3 rounded-full bg-brand px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/25 active:scale-[0.97]"
             >
               Solicitar presupuesto
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-0.5">

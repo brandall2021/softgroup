@@ -107,7 +107,7 @@ export default function Testimonials() {
                 transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
-                <div className="rounded-2xl border border-slate-100 bg-white p-8 shadow-xl shadow-slate-200/50 sm:p-10">
+                <div className="glass-card rounded-2xl p-8 sm:p-10 card-premium">
                   <Quote className="mb-6 h-8 w-8 text-brand/20" />
                   <p className="mb-8 text-lg leading-relaxed text-slate-600 sm:text-xl">
                     &ldquo;{testimonials[current].text}&rdquo;

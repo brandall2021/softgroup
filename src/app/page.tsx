@@ -1,21 +1,28 @@
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Services from "@/components/Services";
-import AIAgent from "@/components/AIAgent";
-import Portfolio from "@/components/Portfolio";
-import Stats from "@/components/Stats";
-import Process from "@/components/Process";
-import TechStack from "@/components/TechStack";
-import Testimonials from "@/components/Testimonials";
-import Blog from "@/components/Blog";
-import Contact from "@/components/Contact";
-import BudgetCalculator from "@/components/BudgetCalculator";
-import Footer from "@/components/Footer";
-import ChatWidget from "@/components/ChatWidget";
+import ScrollProgress from "@/components/ScrollProgress";
+
+const Services = dynamic(() => import("@/components/Services"), { ssr: true });
+const AIAgent = dynamic(() => import("@/components/AIAgent"), { ssr: true });
+const Stats = dynamic(() => import("@/components/Stats"), { ssr: true });
+const Portfolio = dynamic(() => import("@/components/Portfolio"), { ssr: true });
+const Process = dynamic(() => import("@/components/Process"), { ssr: true });
+const TechStack = dynamic(() => import("@/components/TechStack"), { ssr: true });
+const Testimonials = dynamic(() => import("@/components/Testimonials"), { ssr: true });
+const Blog = dynamic(() => import("@/components/Blog"), { ssr: true });
+const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
+const BudgetCalculator = dynamic(() => import("@/components/BudgetCalculator"), { ssr: true });
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: true });
+const ChatWidget = dynamic(() => import("@/components/ChatWidget"), {
+  ssr: true,
+  loading: () => null,
+});
 
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />
