@@ -42,7 +42,7 @@ export default function Services() {
           transition={{ duration: 0.6, ease: customEasing }}
           className="text-center mb-16 md:mb-20"
         >
-          <span className="inline-flex items-center rounded-full bg-[#0057D9]/8 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-[#0057D9] mb-5 border border-[#0057D9]/10">
+          <span className="inline-flex items-center rounded-full bg-[#2563EB]/8 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-[#2563EB] mb-5 border border-[#2563EB]/10">
             Nuestros Servicios
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#0F172A]">
@@ -87,9 +87,9 @@ export default function Services() {
                       service.featured ? "mb-7" : ""
                     }`}
                   >
-                    <div                     className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#0057D9]/10 transition-all duration-200 group-safe-hover:bg-[#0057D9]/15">
+                    <div                     className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#2563EB]/10 transition-all duration-200 group-safe-hover:bg-[#2563EB]/15">
                       <Icon
-                        className="w-6 h-6 text-[#0057D9]"
+                        className="w-6 h-6 text-[#2563EB]"
                         strokeWidth={1.5}
                       />
                     </div>
@@ -115,7 +115,7 @@ export default function Services() {
                     {service.subcategories.map((sub) => (
                       <span
                         key={sub.label}
-                        className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-600 transition-all duration-200 group-safe-hover:bg-[#0057D9]/5 group-safe-hover:text-[#0057D9]"
+                        className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-600 transition-all duration-200 group-safe-hover:bg-[#2563EB]/5 group-safe-hover:text-[#2563EB]"
                       >
                         {sub.label}
                       </span>

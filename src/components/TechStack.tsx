@@ -76,7 +76,7 @@ export default function TechStack() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <section className="py-24 md:py-32 bg-surface overflow-hidden">
+    <section id="tecnologias" className="py-24 md:py-32 bg-surface overflow-hidden">
       <style>{`
         @keyframes marquee-left {
           0% { transform: translateX(0); }

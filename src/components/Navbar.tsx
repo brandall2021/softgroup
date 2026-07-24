@@ -10,7 +10,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 20);
+    setScrolled(window.scrollY > 50);
   }, []);
 
   useEffect(() => {
@@ -44,10 +44,10 @@ export default function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-5xl rounded-full transition-all duration-300 ${
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-5xl rounded-full transition-all duration-500 ${
           scrolled
-            ? "bg-navy/70 backdrop-blur-xl border border-white/[0.06] shadow-lg shadow-black/10"
-            : "bg-navy/50 backdrop-blur-lg border border-white/[0.04]"
+            ? "bg-navy/90 backdrop-blur-xl border border-white/[0.08] shadow-xl shadow-black/20"
+            : "bg-transparent border border-transparent"
         }`}
       >
         <div className="mx-auto flex h-14 items-center justify-between px-5 lg:h-[3.75rem] lg:px-6">
@@ -72,10 +72,10 @@ export default function Navbar() {
                   e.preventDefault();
                   scrollTo(link.href);
                 }}
-                className="group relative rounded-full px-3.5 py-2 text-[13px] font-medium text-slate-300 transition-all duration-200 safe-hover:text-white"
+                className="group relative rounded-full px-3 py-2 text-[12px] font-medium text-slate-300 transition-all duration-200 safe-hover:text-white"
               >
                 {link.label}
-                <span className="absolute bottom-1.5 left-3.5 h-px w-0 bg-brand transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-safe-hover:w-[calc(100%-1.75rem)]" />
+                <span className="absolute bottom-1 left-3 h-px w-0 bg-brand transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-safe-hover:w-[calc(100%-1.5rem)]" />
               </a>
             ))}
           </div>
@@ -90,7 +90,7 @@ export default function Navbar() {
               aria-label="Solicitar presupuesto"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white transition-all duration-200 safe-hover:bg-brand-dark safe-hover:shadow-lg safe-hover:shadow-brand/25 active:scale-[0.97]"
             >
-              Solicitar presupuesto
+              Contactar
               <ChevronRight className="h-4 w-4" />
             </a>
           </div>
@@ -193,7 +193,7 @@ export default function Navbar() {
                   aria-label="Solicitar presupuesto"
                   className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 safe-hover:bg-brand-dark active:scale-[0.97]"
                 >
-                  Solicitar presupuesto
+                  Contactar
                   <ChevronRight className="h-4 w-4" />
                 </a>
               </motion.div>

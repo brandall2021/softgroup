@@ -28,19 +28,19 @@ const techStack = [
 
 const orbitNodes = [
   { angle: 0, radius: 110, size: 10, delay: 0, color: "#06B6D4" },
-  { angle: 60, radius: 110, size: 8, delay: 0.4, color: "#0057D9" },
+  { angle: 60, radius: 110, size: 8, delay: 0.4, color: "#2563EB" },
   { angle: 120, radius: 110, size: 12, delay: 0.8, color: "#8B5CF6" },
   { angle: 180, radius: 110, size: 7, delay: 1.2, color: "#06B6D4" },
-  { angle: 240, radius: 110, size: 9, delay: 1.6, color: "#0057D9" },
+  { angle: 240, radius: 110, size: 9, delay: 1.6, color: "#2563EB" },
   { angle: 300, radius: 110, size: 11, delay: 2.0, color: "#8B5CF6" },
 ];
 
 const innerNodes = [
   { angle: 30, radius: 65, size: 6, delay: 0.2, color: "#06B6D4" },
-  { angle: 90, radius: 65, size: 5, delay: 0.6, color: "#0057D9" },
+  { angle: 90, radius: 65, size: 5, delay: 0.6, color: "#2563EB" },
   { angle: 150, radius: 65, size: 7, delay: 1.0, color: "#8B5CF6" },
   { angle: 210, radius: 65, size: 5, delay: 1.4, color: "#06B6D4" },
-  { angle: 270, radius: 65, size: 6, delay: 1.8, color: "#0057D9" },
+  { angle: 270, radius: 65, size: 6, delay: 1.8, color: "#2563EB" },
   { angle: 330, radius: 65, size: 5, delay: 2.2, color: "#8B5CF6" },
 ];
 
@@ -48,11 +48,11 @@ function NeuralVisualization() {
   return (
     <div className="relative flex items-center justify-center w-full aspect-square max-w-[400px] mx-auto">
       {/* Ambient glow */}
-      <div className="absolute inset-0 rounded-full bg-[#0057D9]/5 blur-3xl" />
+      <div className="absolute inset-0 rounded-full bg-[#2563EB]/5 blur-3xl" />
       <div className="absolute inset-8 rounded-full bg-[#06B6D4]/5 blur-2xl" />
 
       {/* Orbit rings */}
-      <div className="absolute w-[220px] h-[220px] md:w-[260px] md:h-[260px] rounded-full border border-[#0057D9]/10" />
+      <div className="absolute w-[220px] h-[220px] md:w-[260px] md:h-[260px] rounded-full border border-[#2563EB]/10" />
       <div className="absolute w-[130px] h-[130px] md:w-[150px] md:h-[150px] rounded-full border border-[#06B6D4]/10" />
 
       {/* Rotating outer group */}
@@ -145,7 +145,7 @@ function NeuralVisualization() {
               y1={cy + Math.sin(rad1) * node.radius}
               x2={cx + Math.cos(rad2) * next.radius}
               y2={cy + Math.sin(rad2) * next.radius}
-              stroke="#0057D9"
+              stroke="#2563EB"
               strokeWidth="0.5"
               strokeOpacity="0.2"
               initial={{ pathLength: 0 }}
@@ -206,18 +206,18 @@ function NeuralVisualization() {
       {/* Center core */}
       <div className="relative z-10 flex items-center justify-center">
         <motion.div
-          className="absolute w-20 h-20 rounded-full bg-[#0057D9]/10 blur-xl"
+          className="absolute w-20 h-20 rounded-full bg-[#2563EB]/10 blur-xl"
           style={{ willChange: "transform, opacity" }}
           animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.8, 0.4] }}
           transition={{ duration: 3, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
         />
         <motion.div
-          className="absolute w-14 h-14 rounded-full bg-[#0057D9]/15 blur-md"
+          className="absolute w-14 h-14 rounded-full bg-[#2563EB]/15 blur-md"
           style={{ willChange: "transform" }}
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
         />
-        <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-[#0057D9] to-[#06B6D4] flex items-center justify-center shadow-lg shadow-[#0057D9]/30">
+        <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-[#2563EB] to-[#06B6D4] flex items-center justify-center shadow-lg shadow-[#2563EB]/30">
           <span className="text-xs font-bold text-white tracking-wide">
             IA
           </span>
@@ -245,7 +245,7 @@ export default function AIAgent() {
       className="relative py-24 md:py-32 bg-[#0F172A] overflow-hidden"
     >
       {/* Background gradient effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-[#0057D9]/5 blur-[120px]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-[#2563EB]/5 blur-[120px]" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#06B6D4]/5 blur-[100px]" />
       <div className="absolute top-1/2 left-0 w-[400px] h-[400px] rounded-full bg-[#8B5CF6]/3 blur-[80px]" />
 
@@ -289,7 +289,7 @@ export default function AIAgent() {
 
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.1]">
                 Agentes IA que{" "}
-                <span className="bg-gradient-to-r from-[#0057D9] via-[#06B6D4] to-[#8B5CF6] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#2563EB] via-[#06B6D4] to-[#8B5CF6] bg-clip-text text-transparent">
                   transforman
                 </span>{" "}
                 tu negocio
@@ -328,7 +328,7 @@ export default function AIAgent() {
                   }}
                   className="flex items-center gap-3"
                 >
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#0057D9]/20 shrink-0">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#2563EB]/20 shrink-0">
                     <Check
                       className="w-3 h-3 text-[#06B6D4]"
                       strokeWidth={3}
@@ -360,7 +360,7 @@ export default function AIAgent() {
                 {techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-white/5 text-slate-400 border border-white/[0.06] transition-colors duration-200 hover:bg-[#0057D9]/10 hover:text-[#06B6D4] hover:border-[#06B6D4]/20 cursor-default"
+                    className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-white/5 text-slate-400 border border-white/[0.06] transition-colors duration-200 hover:bg-[#2563EB]/10 hover:text-[#06B6D4] hover:border-[#06B6D4]/20 cursor-default"
                   >
                     {tech}
                   </span>
