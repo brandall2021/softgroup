@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MapPin, Phone, Mail, ArrowRight } from "lucide-react";
 import { footerLinks, socialLinks } from "../config/navigation";
+import AnimateOnScroll from "./AnimateOnScroll";
 
 function LinkedinIcon({ className }: { className?: string }) {
   return (
@@ -63,7 +64,8 @@ export default function Footer() {
     <footer className="bg-navy">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-8">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          <div className="sm:col-span-2 lg:col-span-1">
+          {/* Logo + description */}
+          <AnimateOnScroll animation="fadeUp" delay={0} className="sm:col-span-2 lg:col-span-1">
             <a href="#inicio" onClick={(e) => { e.preventDefault(); scrollTo("#inicio"); }} className="inline-flex items-center gap-0.5 text-xl font-bold tracking-tight">
               <span className="text-white">Soft</span>
               <span className="text-brand">Group</span>
@@ -89,9 +91,10 @@ export default function Footer() {
                 ) : null;
               })}
             </div>
-          </div>
+          </AnimateOnScroll>
 
-          <div>
+          {/* Services */}
+          <AnimateOnScroll animation="fadeUp" delay={0.1}>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
               Servicios
             </h3>
@@ -108,9 +111,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </AnimateOnScroll>
 
-          <div>
+          {/* Company */}
+          <AnimateOnScroll animation="fadeUp" delay={0.2}>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
               Empresa
             </h3>
@@ -127,9 +131,10 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </AnimateOnScroll>
 
-          <div>
+          {/* Contact */}
+          <AnimateOnScroll animation="fadeUp" delay={0.3}>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
               Contacto
             </h3>
@@ -178,37 +183,39 @@ export default function Footer() {
                 </button>
               </form>
             </div>
-          </div>
+          </AnimateOnScroll>
         </div>
 
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:flex-row">
-          <p className="text-xs text-slate-500">
-            &copy; 2026 SoftGroup. Todos los derechos reservados.
-          </p>
-          <div className="flex items-center gap-6">
-            <a
-              href="#"
-              aria-label="Política de Privacidad"
-              className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
-            >
-              Política de Privacidad
-            </a>
-            <a
-              href="#"
-              aria-label="Términos de Uso"
-              className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
-            >
-              Términos de Uso
-            </a>
-            <a
-              href="#"
-              aria-label="Política de Cookies"
-              className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
-            >
-              Cookies
-            </a>
+        <AnimateOnScroll animation="fadeUp" delay={0.4}>
+          <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:flex-row">
+            <p className="text-xs text-slate-500">
+              &copy; 2026 SoftGroup. Todos los derechos reservados.
+            </p>
+            <div className="flex items-center gap-6">
+              <a
+                href="#"
+                aria-label="Política de Privacidad"
+                className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
+              >
+                Política de Privacidad
+              </a>
+              <a
+                href="#"
+                aria-label="Términos de Uso"
+                className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
+              >
+                Términos de Uso
+              </a>
+              <a
+                href="#"
+                aria-label="Política de Cookies"
+                className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
+              >
+                Cookies
+              </a>
+            </div>
           </div>
-        </div>
+        </AnimateOnScroll>
       </div>
     </footer>
   );

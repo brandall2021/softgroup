@@ -338,6 +338,65 @@ body {
   animation: arrow-bounce 1.5s ease-in-out infinite;
 }
 
+/* Hover glow effect */
+.hover-glow {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.15), 0 8px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Glow pulse for cards */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(37, 99, 235, 0.1); }
+  50% { box-shadow: 0 0 25px rgba(37, 99, 235, 0.25); }
+}
+
+.glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Flow line animation for diagrams */
+@keyframes flow-line {
+  0% { stroke-dashoffset: 20; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.flow-line {
+  stroke-dasharray: 20;
+  animation: flow-line 1.5s linear infinite;
+}
+
+/* Stagger children helper */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.stagger-children.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0ms; }
+.stagger-children.visible > *:nth-child(2) { transition-delay: 80ms; }
+.stagger-children.visible > *:nth-child(3) { transition-delay: 160ms; }
+.stagger-children.visible > *:nth-child(4) { transition-delay: 240ms; }
+.stagger-children.visible > *:nth-child(5) { transition-delay: 320ms; }
+.stagger-children.visible > *:nth-child(6) { transition-delay: 400ms; }
+.stagger-children.visible > *:nth-child(7) { transition-delay: 480ms; }
+.stagger-children.visible > *:nth-child(8) { transition-delay: 560ms; }
+
+/* Flow node animation */
+@keyframes node-appear {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.node-appear {
+  animation: node-appear 0.5s ease-out forwards;
+}
+
 /* Touch-safe hover variants — only fire on devices with hover capability + fine pointer */
 @custom-variant safe-hover {
   @media (hover: hover) and (pointer: fine) {

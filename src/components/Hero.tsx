@@ -1,7 +1,14 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useRef, useEffect, useCallback, useState } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 import { ArrowRight, MessageCircle } from "lucide-react";
 
 interface Node {
@@ -40,6 +47,46 @@ function createNodes(width: number, height: number, count: number): Node[] {
 
 export default function Hero() {
   const prefersReduced = useReducedMotion();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  // Parallax scroll
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const blobY1 = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const blobY2 = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const blobY3 = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const visualY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+
+  // Mouse tracking for glass panel tilt
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), {
+    stiffness: 150,
+    damping: 20,
+  });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), {
+    stiffness: 150,
+    damping: 20,
+  });
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (prefersReduced) return;
+      const rect = sectionRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      mouseX.set(x);
+      mouseY.set(y);
+      setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    },
+    [mouseX, mouseY, prefersReduced]
+  );
 
   const stagger = {
     hidden: {},
@@ -210,13 +257,32 @@ export default function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       id="inicio"
+      onMouseMove={handleMouseMove}
       className="relative flex min-h-[100dvh] items-center overflow-hidden bg-surface-dark"
     >
-      {/* Aurora gradient blobs */}
-      <div className="aurora-blob absolute top-[-10%] left-[10%] h-[500px] w-[500px] bg-brand/25" style={{ animationDelay: "0s" }} />
-      <div className="aurora-blob absolute bottom-[-5%] right-[5%] h-[400px] w-[400px] bg-cyan/20" style={{ animationDelay: "-7s" }} />
-      <div className="aurora-blob absolute top-[30%] right-[20%] h-[300px] w-[300px] bg-violet/15" style={{ animationDelay: "-14s" }} />
+      {/* Aurora gradient blobs with parallax */}
+      <motion.div
+        style={{ y: blobY1 }}
+        className="aurora-blob absolute top-[-10%] left-[10%] h-[500px] w-[500px] bg-brand/25"
+      />
+      <motion.div
+        style={{ y: blobY2 }}
+        className="aurora-blob absolute bottom-[-5%] right-[5%] h-[400px] w-[400px] bg-cyan/20"
+      />
+      <motion.div
+        style={{ y: blobY3 }}
+        className="aurora-blob absolute top-[30%] right-[20%] h-[300px] w-[300px] bg-violet/15"
+      />
+
+      {/* Mouse glow */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-30 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(37, 99, 235, 0.12), transparent 60%)`,
+        }}
+      />
 
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-pattern opacity-40" />
@@ -239,6 +305,7 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-32">
         <motion.div
+          style={{ y: contentY }}
           variants={stagger}
           initial="hidden"
           animate="visible"
@@ -325,14 +392,15 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right visual — tech composite */}
+        {/* Right visual — tech composite with mouse tracking */}
         <motion.div
+          style={{ y: visualY, rotateX, rotateY }}
           variants={scaleIn}
           initial="hidden"
           animate="visible"
           className="pointer-events-none absolute right-0 top-1/2 hidden -translate-y-1/2 lg:block"
         >
-          <div className="relative h-[420px] w-[420px]">
+          <div className="relative h-[420px] w-[420px]" style={{ perspective: 800 }}>
             {/* Glow backdrop */}
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-brand/20 via-cyan/10 to-violet/15 blur-3xl" />
 

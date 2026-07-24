@@ -1,101 +1,195 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import {
+  MessageSquare,
+  Brain,
+  FileSearch,
+  Workflow,
+  ScanText,
+  Eye,
+  FileText,
+  Database,
+  LayoutDashboard,
+  ArrowDown,
+} from "lucide-react";
+import AnimateOnScroll from "./AnimateOnScroll";
 
 const capabilities = [
-  "Automatizan tareas repetitivas 24/7",
-  "Atienden clientes con inteligencia",
-  "Procesan documentos automáticamente",
-  "Analizan datos en tiempo real",
-  "Interactúan con múltiples sistemas",
-  "Integran ERP, CRM, WhatsApp y APIs",
+  {
+    icon: MessageSquare,
+    title: "Chatbots Inteligentes",
+    description: "Asistentes conversacionales que resuelven consultas 24/7 con contexto de tu negocio.",
+    color: "text-brand",
+    bg: "bg-brand/10",
+  },
+  {
+    icon: Brain,
+    title: "WhatsApp IA",
+    description: "Agentes automatizados para WhatsApp Business que gestionan ventas y soporte.",
+    color: "text-emerald-400",
+    bg: "bg-emerald-400/10",
+  },
+  {
+    icon: FileSearch,
+    title: "RAG",
+    description: "Retrieval-Augmented Generation para respuestas precisas basadas en tus documentos.",
+    color: "text-violet",
+    bg: "bg-violet/10",
+  },
+  {
+    icon: Workflow,
+    title: "Automatización",
+    description: "Workflows inteligentes con n8n que conectan tus sistemas automáticamente.",
+    color: "text-cyan",
+    bg: "bg-cyan/10",
+  },
+  {
+    icon: ScanText,
+    title: "OCR",
+    description: "Extracción automática de datos de facturas, contratos y documentos.",
+    color: "text-amber-400",
+    bg: "bg-amber-400/10",
+  },
+  {
+    icon: Eye,
+    title: "Visión Artificial",
+    description: "Análisis de imágenes y video para control de calidad y monitoreo.",
+    color: "text-rose-400",
+    bg: "bg-rose-400/10",
+  },
+  {
+    icon: FileText,
+    title: "Procesamiento Documental",
+    description: "Clasificación, resumen y análisis automático de documentos a escala.",
+    color: "text-brand-light",
+    bg: "bg-brand-light/10",
+  },
+];
+
+const flowSteps = [
+  {
+    icon: MessageSquare,
+    label: "Cliente",
+    sublabel: "WhatsApp / Web / Email",
+    color: "from-brand to-brand-dark",
+  },
+  {
+    icon: Brain,
+    label: "IA",
+    sublabel: "Procesamiento Inteligente",
+    color: "from-cyan to-brand",
+  },
+  {
+    icon: Workflow,
+    label: "Automatización",
+    sublabel: "n8n / Workflows",
+    color: "from-violet to-brand",
+  },
+  {
+    icon: Database,
+    label: "Base de Datos",
+    sublabel: "PostgreSQL / MongoDB / Qdrant",
+    color: "from-brand-dark to-navy",
+  },
+  {
+    icon: LayoutDashboard,
+    label: "Dashboard",
+    sublabel: "Métricas en Tiempo Real",
+    color: "from-cyan to-violet",
+  },
 ];
 
 const techStack = [
-  "OpenAI",
-  "Claude",
-  "Gemini",
-  "Llama",
-  "DeepSeek",
-  "n8n",
-  "LangChain",
-  "MCP",
-  "RAG",
-  "Pinecone",
-  "Qdrant",
-];
-
-const orbitNodes = [
-  { angle: 0, radius: 110, size: 10, delay: 0, color: "#06B6D4" },
-  { angle: 60, radius: 110, size: 8, delay: 0.4, color: "#2563EB" },
-  { angle: 120, radius: 110, size: 12, delay: 0.8, color: "#8B5CF6" },
-  { angle: 180, radius: 110, size: 7, delay: 1.2, color: "#06B6D4" },
-  { angle: 240, radius: 110, size: 9, delay: 1.6, color: "#2563EB" },
-  { angle: 300, radius: 110, size: 11, delay: 2.0, color: "#8B5CF6" },
-];
-
-const innerNodes = [
-  { angle: 30, radius: 65, size: 6, delay: 0.2, color: "#06B6D4" },
-  { angle: 90, radius: 65, size: 5, delay: 0.6, color: "#2563EB" },
-  { angle: 150, radius: 65, size: 7, delay: 1.0, color: "#8B5CF6" },
-  { angle: 210, radius: 65, size: 5, delay: 1.4, color: "#06B6D4" },
-  { angle: 270, radius: 65, size: 6, delay: 1.8, color: "#2563EB" },
-  { angle: 330, radius: 65, size: 5, delay: 2.2, color: "#8B5CF6" },
+  "OpenAI", "Claude", "Gemini", "n8n", "LangChain",
+  "MCP", "RAG", "Pinecone", "Qdrant", "DeepSeek", "Llama",
 ];
 
 function NeuralVisualization() {
+  const prefersReduced = useReducedMotion();
+
+  const orbitAnimation = (duration: number, reverse = false) => ({
+    rotate: reverse ? [360, 0] : [0, 360],
+    transition: {
+      duration,
+      repeat: Infinity,
+      ease: "linear" as const,
+    },
+  });
+
+  const nodes = [
+    { angle: 0, radius: 100, size: 7, delay: 0, color: "#06B6D4" },
+    { angle: 60, radius: 100, size: 8, delay: 0.3, color: "#2563EB" },
+    { angle: 120, radius: 100, size: 6, delay: 0.6, color: "#8B5CF6" },
+    { angle: 180, radius: 100, size: 7, delay: 0.9, color: "#06B6D4" },
+    { angle: 240, radius: 100, size: 8, delay: 1.2, color: "#2563EB" },
+    { angle: 300, radius: 100, size: 6, delay: 1.5, color: "#8B5CF6" },
+  ];
+
+  const innerNodes = [
+    { angle: 30, radius: 55, size: 4, delay: 0.2, color: "#06B6D4" },
+    { angle: 90, radius: 55, size: 5, delay: 0.5, color: "#2563EB" },
+    { angle: 150, radius: 55, size: 4, delay: 0.8, color: "#8B5CF6" },
+    { angle: 210, radius: 55, size: 5, delay: 1.1, color: "#06B6D4" },
+    { angle: 270, radius: 55, size: 4, delay: 1.4, color: "#2563EB" },
+    { angle: 330, radius: 55, size: 5, delay: 1.7, color: "#8B5CF6" },
+  ];
+
   return (
-    <div className="relative flex items-center justify-center w-full aspect-square max-w-[400px] mx-auto">
-      {/* Ambient glow */}
-      <div className="absolute inset-0 rounded-full bg-[#2563EB]/5 blur-3xl" />
-      <div className="absolute inset-8 rounded-full bg-[#06B6D4]/5 blur-2xl" />
+    <div className="relative mx-auto h-[320px] w-[320px] md:h-[380px] md:w-[380px]">
+      {/* Background glow */}
+      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-brand/15 via-cyan/10 to-violet/10 blur-3xl" />
 
-      {/* Orbit rings */}
-      <div className="absolute w-[220px] h-[220px] md:w-[260px] md:h-[260px] rounded-full border border-[#2563EB]/10" />
-      <div className="absolute w-[130px] h-[130px] md:w-[150px] md:h-[150px] rounded-full border border-[#06B6D4]/10" />
+      {/* Outer orbit ring */}
+      <div className="absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-brand/10 md:h-[260px] md:w-[260px]" />
 
-      {/* Rotating outer group */}
+      {/* Inner orbit ring */}
+      <div className="absolute left-1/2 top-1/2 h-[110px] w-[110px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan/10 md:h-[130px] md:w-[130px]" />
+
+      {/* Outer orbit nodes */}
       <motion.div
-        className="absolute w-[220px] h-[220px] md:w-[260px] md:h-[260px]"
-        style={{ willChange: "transform" }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        animate={orbitAnimation(30)}
+        className="absolute inset-0"
       >
-        {orbitNodes.map((node, i) => {
+        {nodes.map((node, i) => {
           const rad = (node.angle * Math.PI) / 180;
           const x = Math.cos(rad) * node.radius;
           const y = Math.sin(rad) * node.radius;
           return (
             <motion.div
-              key={`outer-${i}`}
-              className="absolute rounded-full"
-              style={{
-                width: node.size,
-                height: node.size,
-                backgroundColor: node.color,
-                left: `calc(50% + ${x}px - ${node.size / 2}px)`,
-                top: `calc(50% + ${y}px - ${node.size / 2}px)`,
-                boxShadow: `0 0 ${node.size * 2}px ${node.color}80`,
+              key={i}
+              animate={{
+                opacity: [0.5, 1, 0.5],
+                scale: [0.9, 1.1, 0.9],
               }}
-              animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{
-                duration: 2.5,
+                duration: 2,
                 repeat: Infinity,
                 delay: node.delay,
-                ease: [0.77, 0, 0.175, 1],
               }}
-            />
+              className="absolute left-1/2 top-1/2"
+              style={{
+                transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+              }}
+            >
+              <div
+                className="rounded-full"
+                style={{
+                  width: node.size * 2,
+                  height: node.size * 2,
+                  backgroundColor: node.color,
+                  boxShadow: `0 0 ${node.size * 3}px ${node.color}`,
+                }}
+              />
+            </motion.div>
           );
         })}
       </motion.div>
 
-      {/* Rotating inner group (opposite direction) */}
+      {/* Inner orbit nodes */}
       <motion.div
-        className="absolute w-[130px] h-[130px] md:w-[150px] md:h-[150px]"
-        style={{ willChange: "transform" }}
-        animate={{ rotate: -360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        animate={orbitAnimation(20, true)}
+        className="absolute inset-0"
       >
         {innerNodes.map((node, i) => {
           const rad = (node.angle * Math.PI) / 180;
@@ -103,272 +197,261 @@ function NeuralVisualization() {
           const y = Math.sin(rad) * node.radius;
           return (
             <motion.div
-              key={`inner-${i}`}
-              className="absolute rounded-full"
-              style={{
-                width: node.size,
-                height: node.size,
-                backgroundColor: node.color,
-                left: `calc(50% + ${x}px - ${node.size / 2}px)`,
-                top: `calc(50% + ${y}px - ${node.size / 2}px)`,
-                boxShadow: `0 0 ${node.size * 2}px ${node.color}80`,
+              key={i}
+              animate={{
+                opacity: [0.4, 0.9, 0.4],
               }}
-              animate={{ opacity: [0.4, 1, 0.4] }}
               transition={{
-                duration: 2,
+                duration: 1.5,
                 repeat: Infinity,
                 delay: node.delay,
-                ease: [0.77, 0, 0.175, 1],
               }}
-            />
+              className="absolute left-1/2 top-1/2"
+              style={{
+                transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+              }}
+            >
+              <div
+                className="rounded-full"
+                style={{
+                  width: node.size * 2,
+                  height: node.size * 2,
+                  backgroundColor: node.color,
+                  boxShadow: `0 0 ${node.size * 2}px ${node.color}`,
+                }}
+              />
+            </motion.div>
           );
         })}
       </motion.div>
 
       {/* SVG connecting lines */}
-      <svg
-        className="absolute inset-0 w-full h-full"
-        viewBox="0 0 400 400"
-        fill="none"
-      >
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 380 380">
         {/* Outer connections */}
-        {orbitNodes.map((node, i) => {
-          const next = orbitNodes[(i + 1) % orbitNodes.length];
+        {nodes.map((node, i) => {
+          const next = nodes[(i + 1) % nodes.length];
           const rad1 = (node.angle * Math.PI) / 180;
           const rad2 = (next.angle * Math.PI) / 180;
-          const cx = 200;
-          const cy = 200;
+          const x1 = 190 + Math.cos(rad1) * node.radius;
+          const y1 = 190 + Math.sin(rad1) * node.radius;
+          const x2 = 190 + Math.cos(rad2) * next.radius;
+          const y2 = 190 + Math.sin(rad2) * next.radius;
           return (
             <motion.line
-              key={`line-outer-${i}`}
-              x1={cx + Math.cos(rad1) * node.radius}
-              y1={cy + Math.sin(rad1) * node.radius}
-              x2={cx + Math.cos(rad2) * next.radius}
-              y2={cy + Math.sin(rad2) * next.radius}
-              stroke="#2563EB"
-              strokeWidth="0.5"
-              strokeOpacity="0.2"
+              key={`outer-${i}`}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              stroke="rgba(37, 99, 235, 0.15)"
+              strokeWidth={1}
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 1.5, delay: i * 0.15 }}
+              transition={{ duration: 2, delay: i * 0.2 }}
             />
           );
         })}
-        {/* Inner connections */}
-        {innerNodes.map((node, i) => {
-          const next = innerNodes[(i + 1) % innerNodes.length];
-          const rad1 = (node.angle * Math.PI) / 180;
-          const rad2 = (next.angle * Math.PI) / 180;
-          const cx = 200;
-          const cy = 200;
+
+        {/* Cross connections */}
+        {[0, 2, 4].map((i) => {
+          const outer = nodes[i];
+          const inner = innerNodes[i + 1] || innerNodes[0];
+          const radO = (outer.angle * Math.PI) / 180;
+          const radI = (inner.angle * Math.PI) / 180;
+          const x1 = 190 + Math.cos(radO) * outer.radius;
+          const y1 = 190 + Math.sin(radO) * outer.radius;
+          const x2 = 190 + Math.cos(radI) * inner.radius;
+          const y2 = 190 + Math.sin(radI) * inner.radius;
           return (
             <motion.line
-              key={`line-inner-${i}`}
-              x1={cx + Math.cos(rad1) * node.radius}
-              y1={cy + Math.sin(rad1) * node.radius}
-              x2={cx + Math.cos(rad2) * next.radius}
-              y2={cy + Math.sin(rad2) * next.radius}
-              stroke="#06B6D4"
-              strokeWidth="0.5"
-              strokeOpacity="0.2"
+              key={`cross-${i}`}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              stroke="rgba(6, 182, 212, 0.1)"
+              strokeWidth={1}
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 1.5, delay: i * 0.15 + 0.5 }}
-            />
-          );
-        })}
-        {/* Cross connections (outer to inner) */}
-        {orbitNodes.map((node, i) => {
-          if (i % 2 !== 0) return null;
-          const inner = innerNodes[i];
-          const rad1 = (node.angle * Math.PI) / 180;
-          const rad2 = (inner.angle * Math.PI) / 180;
-          const cx = 200;
-          const cy = 200;
-          return (
-            <motion.line
-              key={`line-cross-${i}`}
-              x1={cx + Math.cos(rad1) * node.radius}
-              y1={cy + Math.sin(rad1) * node.radius}
-              x2={cx + Math.cos(rad2) * inner.radius}
-              y2={cy + Math.sin(rad2) * inner.radius}
-              stroke="#8B5CF6"
-              strokeWidth="0.5"
-              strokeOpacity="0.15"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1, delay: i * 0.2 + 1 }}
+              transition={{ duration: 1.5, delay: 1 + i * 0.15 }}
             />
           );
         })}
       </svg>
 
       {/* Center core */}
-      <div className="relative z-10 flex items-center justify-center">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <motion.div
-          className="absolute w-20 h-20 rounded-full bg-[#2563EB]/10 blur-xl"
-          style={{ willChange: "transform, opacity" }}
-          animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 3, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
-        />
-        <motion.div
-          className="absolute w-14 h-14 rounded-full bg-[#2563EB]/15 blur-md"
-          style={{ willChange: "transform" }}
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
-        />
-        <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-[#2563EB] to-[#06B6D4] flex items-center justify-center shadow-lg shadow-[#2563EB]/30">
-          <span className="text-xs font-bold text-white tracking-wide">
-            IA
-          </span>
-        </div>
+          animate={{
+            boxShadow: [
+              "0 0 20px rgba(37, 99, 235, 0.3)",
+              "0 0 40px rgba(37, 99, 235, 0.5)",
+              "0 0 20px rgba(37, 99, 235, 0.3)",
+            ],
+          }}
+          transition={{ duration: 3, repeat: Infinity }}
+          className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand to-cyan md:h-20 md:w-20"
+        >
+          <span className="text-lg font-bold text-white md:text-xl">IA</span>
+        </motion.div>
       </div>
 
       {/* Label */}
-      <motion.div
-        className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2"
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 3, repeat: Infinity, ease: [0.77, 0, 0.175, 1] }}
+      <motion.p
+        animate={{ opacity: [0.4, 0.8, 0.4] }}
+        transition={{ duration: 3, repeat: Infinity }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs font-medium tracking-widest text-slate-500 uppercase"
       >
-        <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[#06B6D4]/70">
-          IA Engine
-        </span>
-      </motion.div>
+        IA Engine
+      </motion.p>
+    </div>
+  );
+}
+
+function FlowDiagram() {
+  const prefersReduced = useReducedMotion();
+
+  return (
+    <div className="flex flex-col items-center gap-0">
+      {flowSteps.map((step, i) => {
+        const Icon = step.icon;
+        const isLast = i === flowSteps.length - 1;
+
+        return (
+          <div key={i} className="flex flex-col items-center">
+            <AnimateOnScroll
+              animation="zoomIn"
+              delay={i * 0.15}
+              className="w-full"
+            >
+              <div className="glass-card-dark hover-glow group mx-auto flex max-w-sm items-center gap-4 rounded-2xl p-5 transition-all duration-300">
+                <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${step.color} shadow-lg`}>
+                  <Icon className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-white">{step.label}</h4>
+                  <p className="text-sm text-slate-400">{step.sublabel}</p>
+                </div>
+              </div>
+            </AnimateOnScroll>
+
+            {!isLast && (
+              <AnimateOnScroll animation="fadeUp" delay={i * 0.15 + 0.1}>
+                <motion.div
+                  animate={prefersReduced ? {} : { y: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ArrowDown className="my-1 h-5 w-5 text-brand/40" />
+                </motion.div>
+              </AnimateOnScroll>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 export default function AIAgent() {
+  const prefersReduced = useReducedMotion();
+
   return (
     <section
       id="agentes-ia"
-      className="relative py-24 md:py-32 bg-[#0F172A] overflow-hidden"
+      className="relative overflow-hidden bg-surface-dark py-24 md:py-32"
     >
-      {/* Background gradient effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-[#2563EB]/5 blur-[120px]" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-[#06B6D4]/5 blur-[100px]" />
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] rounded-full bg-[#8B5CF6]/3 blur-[80px]" />
+      {/* Background effects */}
+      <div className="absolute inset-0 grid-pattern opacity-30" />
+      <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-brand/5 blur-[120px]" />
 
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-      </div>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center">
+          <AnimateOnScroll animation="fadeUp">
+            <span className="inline-flex items-center gap-2 rounded-full border border-cyan/20 bg-cyan/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan animate-pulse-glow" />
+              Inteligencia Artificial
+            </span>
+          </AnimateOnScroll>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left: Neural visualization */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="order-2 lg:order-1"
-          >
+          <AnimateOnScroll animation="fadeUp" delay={0.1}>
+            <h2 className="mt-8 text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+              Agentes IA que{" "}
+              <span className="gradient-text">transforman</span>{" "}
+              tu negocio
+            </h2>
+          </AnimateOnScroll>
+
+          <AnimateOnScroll animation="fadeUp" delay={0.2}>
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-400">
+              Desarrollamos agentes de inteligencia artificial que se integran
+              con tus sistemas existentes para automatizar procesos, mejorar la
+              atención al cliente y generar insights accionables.
+            </p>
+          </AnimateOnScroll>
+        </div>
+
+        {/* Main content: Visualization + Flow */}
+        <div className="mt-20 grid items-start gap-16 lg:grid-cols-2">
+          {/* Left: Neural Visualization */}
+          <AnimateOnScroll animation="zoomIn" className="flex justify-center">
             <NeuralVisualization />
-          </motion.div>
+          </AnimateOnScroll>
 
-          {/* Right: Content */}
-          <div className="order-1 lg:order-2">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            >
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold tracking-wider uppercase rounded-full bg-[#06B6D4]/15 text-[#06B6D4] border border-[#06B6D4]/20 mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4] animate-pulse" />
-                Inteligencia Artificial
-              </span>
+          {/* Right: Flow Diagram */}
+          <AnimateOnScroll animation="fadeRight" delay={0.2}>
+            <h3 className="mb-8 text-center text-xl font-semibold text-white lg:text-left">
+              Flujo de Procesamiento
+            </h3>
+            <FlowDiagram />
+          </AnimateOnScroll>
+        </div>
 
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.1]">
-                Agentes IA que{" "}
-                <span className="bg-gradient-to-r from-[#2563EB] via-[#06B6D4] to-[#8B5CF6] bg-clip-text text-transparent">
-                  transforman
-                </span>{" "}
-                tu negocio
-              </h2>
+        {/* Capabilities grid */}
+        <div className="mt-24">
+          <AnimateOnScroll animation="fadeUp">
+            <h3 className="mb-12 text-center text-xl font-semibold text-white">
+              Capacidades
+            </h3>
+          </AnimateOnScroll>
 
-              <p className="mt-6 text-lg text-slate-400 leading-relaxed max-w-xl">
-                Desplegamos agentes de inteligencia artificial capaces de
-                comprender, razonar y actuar de forma autónoma. Se integran con
-                tus sistemas existentes para automatizar procesos complejos,
-                atender clientes y liberar a tu equipo de tareas repetitivas.
-              </p>
-            </motion.div>
-
-            {/* Capabilities */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: 0.6,
-                delay: 0.2,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              className="mt-8 space-y-3"
-            >
-              {capabilities.map((capability, i) => (
-                <motion.div
-                  key={capability}
-                  initial={{ opacity: 0, x: -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.4,
-                    delay: 0.3 + i * 0.07,
-                    ease: [0.23, 1, 0.32, 1],
-                  }}
-                  className="flex items-center gap-3"
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {capabilities.map((cap, i) => {
+              const Icon = cap.icon;
+              return (
+                <AnimateOnScroll
+                  key={i}
+                  animation="fadeUp"
+                  delay={i * 0.08}
                 >
-                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#2563EB]/20 shrink-0">
-                    <Check
-                      className="w-3 h-3 text-[#06B6D4]"
-                      strokeWidth={3}
-                    />
+                  <div className="glass-card-dark hover-glow group rounded-2xl p-6 transition-all duration-300">
+                    <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${cap.bg} transition-transform duration-300 group-hover:scale-110`}>
+                      <Icon className={`h-6 w-6 ${cap.color}`} />
+                    </div>
+                    <h4 className="font-semibold text-white">{cap.title}</h4>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                      {cap.description}
+                    </p>
                   </div>
-                  <span className="text-sm md:text-base text-slate-300">
-                    {capability}
-                  </span>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Tech stack badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                duration: 0.5,
-                delay: 0.5,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              className="mt-10"
-            >
-              <p className="text-xs font-semibold tracking-widest uppercase text-slate-500 mb-3">
-                Stack tecnológico
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-white/5 text-slate-400 border border-white/[0.06] transition-colors duration-200 hover:bg-[#2563EB]/10 hover:text-[#06B6D4] hover:border-[#06B6D4]/20 cursor-default"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+                </AnimateOnScroll>
+              );
+            })}
           </div>
         </div>
+
+        {/* Tech stack */}
+        <AnimateOnScroll animation="fadeUp" delay={0.2}>
+          <div className="mt-20 flex flex-wrap items-center justify-center gap-3">
+            {techStack.map((tech) => (
+              <span
+                key={tech}
+                className="rounded-full border border-white/[0.06] bg-white/5 px-4 py-2 text-sm font-medium text-slate-400 transition-all duration-200 hover:border-brand/30 hover:bg-brand/10 hover:text-brand"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </AnimateOnScroll>
       </div>
     </section>
   );
