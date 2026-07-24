@@ -325,7 +325,7 @@ function FlowDiagram() {
               className="w-full"
             >
               <div className="glass-card-dark hover-glow group mx-auto flex max-w-sm items-center gap-4 rounded-2xl p-5 transition-all duration-300">
-                <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${step.color} shadow-lg`}>
+                <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${step.color} shadow-lg shadow-brand/20`}>
                   <Icon className="h-6 w-6 text-white" />
                 </div>
                 <div>

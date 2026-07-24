@@ -51,6 +51,19 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "SoftGroup",
   },
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+  },
   openGraph: {
     type: "website",
     locale: "es_ES",
@@ -61,7 +74,7 @@ export const metadata: Metadata = {
       "Desarrollo de software, agentes de IA, infraestructura tecnológica y soluciones empresariales de alto rendimiento.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/logo-full.png",
         width: 1200,
         height: 630,
         alt: "SoftGroup - Soluciones Digitales Inteligentes",
@@ -73,7 +86,7 @@ export const metadata: Metadata = {
     title: "SoftGroup | Soluciones Digitales Inteligentes",
     description:
       "Desarrollo de software, agentes de IA, infraestructura tecnológica y soluciones empresariales de alto rendimiento.",
-    images: ["/og-image.png"],
+    images: ["/logo-full.png"],
   },
   robots: {
     index: true,
@@ -104,7 +117,7 @@ export default function RootLayout({
               "@type": "Organization",
               name: "SoftGroup",
               url: "https://softgroup.com",
-              logo: "https://softgroup.com/logo.png",
+              logo: "https://softgroup.com/logo-full.png",
               description:
                 "Desarrollo de software, agentes de Inteligencia Artificial, infraestructura tecnológica y soluciones empresariales de alto rendimiento.",
               sameAs: [
@@ -120,9 +133,26 @@ export default function RootLayout({
               },
               address: {
                 "@type": "PostalAddress",
-                addressCountry: "EC",
+                addressCountry: "MX",
+                addressRegion: "CDMX",
               },
               priceRange: "$$-$$$",
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "SoftGroup",
+              url: "https://softgroup.com",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://softgroup.com/?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
             }),
           }}
         />

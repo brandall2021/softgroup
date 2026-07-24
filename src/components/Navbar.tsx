@@ -57,10 +57,14 @@ export default function Navbar() {
               e.preventDefault();
               scrollTo("#inicio");
             }}
-            className="relative z-10 flex items-center gap-0.5 text-xl font-bold tracking-tighter lg:text-2xl"
+            className="relative z-10 flex items-center"
           >
-            <span className="text-white">Soft</span>
-            <span className="text-brand">Group</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-full.png"
+              alt="SoftGroup"
+              className="h-8 w-auto lg:h-9"
+            />
           </a>
 
           <div className="hidden items-center gap-0.5 lg:flex">

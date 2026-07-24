@@ -61,14 +61,15 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-navy">
+    <footer className="relative bg-navy">
+      <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/50 to-transparent pointer-events-none" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 pb-8">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {/* Logo + description */}
           <AnimateOnScroll animation="fadeUp" delay={0} className="sm:col-span-2 lg:col-span-1">
-            <a href="#inicio" onClick={(e) => { e.preventDefault(); scrollTo("#inicio"); }} className="inline-flex items-center gap-0.5 text-xl font-bold tracking-tight">
-              <span className="text-white">Soft</span>
-              <span className="text-brand">Group</span>
+            <a href="#inicio" onClick={(e) => { e.preventDefault(); scrollTo("#inicio"); }} className="inline-flex items-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-full.png" alt="SoftGroup" className="h-8 w-auto" />
             </a>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-slate-400">
               Soluciones digitales inteligentes. Desarrollo de software, agentes de IA

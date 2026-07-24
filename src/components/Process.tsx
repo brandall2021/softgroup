@@ -48,7 +48,8 @@ export default function Process() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <section id="nosotros" className="py-24 md:py-32 bg-white">
+    <section id="nosotros" className="relative py-24 md:py-32 bg-white">
+      <div className="absolute inset-0 grid-pattern opacity-30" />
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: prefersReduced ? 0 : 30 }}

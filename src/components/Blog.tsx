@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Calendar } from "lucide-react";
+import Link from "next/link";
 import { articles } from "../config/blog";
 
 export default function Blog() {
@@ -32,9 +33,9 @@ export default function Blog() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((post, i) => (
+          {articles.slice(0, 3).map((post, i) => (
             <motion.article
-              key={post.title}
+              key={post.slug}
               initial={{ opacity: 0, y: prefersReduced ? 0 : 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -67,29 +68,16 @@ export default function Blog() {
                   {post.excerpt}
                 </p>
 
-                <a
-                  href="#"
+                <Link
+                  href={`/blog/${post.slug}`}
                   className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all duration-200 safe-hover:text-brand-dark"
                 >
                   Leer más
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-safe-hover:translate-x-0.5" />
-                </a>
+                </Link>
               </div>
             </motion.article>
           ))}
-        </div>
-
-        <div className="mt-14 text-center">
-          <motion.a
-            href="#"
-            initial={{ opacity: 0, y: prefersReduced ? 0 : 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-8 py-3 text-sm font-semibold text-navy transition-all duration-200 safe-hover:border-brand safe-hover:bg-brand safe-hover:text-white safe-hover:shadow-lg safe-hover:shadow-brand/20"
-          >
-            Ver todos los artículos
-            <ArrowRight className="h-4 w-4" />
-          </motion.a>
         </div>
       </div>
     </section>

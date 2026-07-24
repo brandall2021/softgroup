@@ -6,6 +6,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { TechStack, Testimonials, BudgetCalculator, ChatWidget } from "@/components/ClientImports";
+import FloatingActions from "@/components/FloatingActions";
 
 function SectionSkeleton() {
   return (
@@ -90,6 +91,7 @@ export default function Home() {
       </main>
       <Footer />
       <ChatWidget />
+      <FloatingActions />
     </>
   );
 }
