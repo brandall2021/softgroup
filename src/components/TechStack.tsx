@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 
 interface TechRow {
   items: string[];
@@ -55,7 +56,7 @@ function MarqueeRow({ row, prefersReduced }: { row: TechRow; prefersReduced: boo
         {doubled.map((tech, i) => (
           <div
             key={`${tech}-${i}`}
-            className="flex-shrink-0 px-6 py-3 rounded-full border border-slate-200/60 bg-white/70 backdrop-blur-sm text-sm font-medium text-navy hover:border-brand/40 hover:bg-brand/5 hover:text-brand transition-all duration-300 cursor-default select-none"
+            className="flex-shrink-0 px-6 py-3 rounded-full border border-slate-200/60 bg-white/70 backdrop-blur-sm text-sm font-medium text-navy hover:border-brand/40 hover:bg-brand/5 hover:text-brand transition-colors duration-300 cursor-default select-none"
           >
             {tech}
           </div>
@@ -73,7 +74,7 @@ function MarqueeRow({ row, prefersReduced }: { row: TechRow; prefersReduced: boo
 }
 
 export default function TechStack() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   return (
     <section id="tecnologias" className="py-24 md:py-32 bg-surface overflow-hidden">

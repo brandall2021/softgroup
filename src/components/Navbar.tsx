@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { navLinks } from "../config/navigation";
+import { BrandLogo } from "./ui/BrandLogo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -44,13 +45,13 @@ export default function Navbar() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-5xl rounded-full transition-all duration-500 ${
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-6xl rounded-full transition-[background-color,border-color,box-shadow] duration-500 ${
           scrolled
             ? "bg-navy/90 backdrop-blur-xl border border-white/[0.08] shadow-xl shadow-black/20"
             : "bg-transparent border border-transparent"
         }`}
       >
-        <div className="mx-auto flex h-14 items-center justify-between px-5 lg:h-[3.75rem] lg:px-6">
+        <div className="mx-auto flex h-16 items-center justify-between px-4 lg:h-[4.5rem] lg:px-6">
           <a
             href="#inicio"
             onClick={(e) => {
@@ -59,12 +60,7 @@ export default function Navbar() {
             }}
             className="relative z-10 flex items-center"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logo-full.png"
-              alt="SoftGroup"
-              className="h-8 w-auto lg:h-9"
-            />
+            <BrandLogo context="navbar" />
           </a>
 
           <div className="hidden items-center gap-0.5 lg:flex">
@@ -76,10 +72,10 @@ export default function Navbar() {
                   e.preventDefault();
                   scrollTo(link.href);
                 }}
-                className="group relative rounded-full px-3 py-2 text-[12px] font-medium text-slate-300 transition-all duration-200 safe-hover:text-white"
+                className="group relative rounded-full px-3 py-2 text-[12px] font-medium text-slate-300 transition-colors duration-200 safe-hover:text-white"
               >
                 {link.label}
-                <span className="absolute bottom-1 left-3 h-px w-0 bg-brand transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-safe-hover:w-[calc(100%-1.5rem)]" />
+                <span className="absolute bottom-1 left-3 h-px w-0 bg-brand transition-[width] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-safe-hover:w-[calc(100%-1.5rem)]" />
               </a>
             ))}
           </div>
@@ -92,7 +88,7 @@ export default function Navbar() {
                 scrollTo("#contacto");
               }}
               aria-label="Solicitar presupuesto"
-              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white transition-all duration-200 safe-hover:bg-brand-dark safe-hover:shadow-lg safe-hover:shadow-brand/25 active:scale-[0.97]"
+              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white transition-[background-color,box-shadow] duration-200 safe-hover:bg-brand-dark safe-hover:shadow-lg safe-hover:shadow-brand/25 active:scale-[0.97]"
             >
               Contactar
               <ChevronRight className="h-4 w-4" />
@@ -101,7 +97,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-white transition-all duration-200 safe-hover:bg-white/10 lg:hidden"
+            className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full text-white transition-colors duration-200 safe-hover:bg-white/10 lg:hidden"
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
@@ -110,11 +106,11 @@ export default function Navbar() {
               <motion.span
                 animate={
                   mobileOpen
-                    ? { rotate: 45, y: 0 }
-                    : { rotate: 0, y: -6 }
+                    ? { rotate: 45, y: 7 }
+                    : { rotate: 0, y: 0 }
                 }
                 transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
-                className="absolute left-0 top-0 h-4 w-full origin-center rounded-full bg-white"
+                className="absolute left-0 top-0 h-[2px] w-full origin-center rounded-full bg-white"
               />
               <motion.span
                 animate={
@@ -123,16 +119,16 @@ export default function Navbar() {
                     : { opacity: 1, scaleX: 1 }
                 }
                 transition={{ duration: 0.2 }}
-                className="absolute left-0 top-1/2 h-4 w-full -translate-y-1/2 rounded-full bg-white"
+                className="absolute left-0 top-[7px] h-[2px] w-full rounded-full bg-white"
               />
               <motion.span
                 animate={
                   mobileOpen
-                    ? { rotate: -45, y: 0 }
-                    : { rotate: 0, y: 6 }
+                    ? { rotate: -45, y: -7 }
+                    : { rotate: 0, y: 0 }
                 }
                 transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
-                className="absolute left-0 bottom-0 h-4 w-full origin-center rounded-full bg-white"
+                className="absolute left-0 bottom-0 h-[2px] w-full origin-center rounded-full bg-white"
               />
             </span>
           </button>
@@ -171,7 +167,7 @@ export default function Navbar() {
                       e.preventDefault();
                       scrollTo(link.href);
                     }}
-                    className="text-2xl font-semibold text-white/80 transition-all duration-200 safe-hover:text-white"
+                    className="text-2xl font-semibold text-white/80 transition-colors duration-200 safe-hover:text-white"
                   >
                     {link.label}
                   </motion.a>
@@ -195,7 +191,7 @@ export default function Navbar() {
                     scrollTo("#contacto");
                   }}
                   aria-label="Solicitar presupuesto"
-                  className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 safe-hover:bg-brand-dark active:scale-[0.97]"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-3.5 text-sm font-semibold text-white transition-colors duration-200 safe-hover:bg-brand-dark active:scale-[0.97]"
                 >
                   Contactar
                   <ChevronRight className="h-4 w-4" />

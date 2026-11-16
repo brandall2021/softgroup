@@ -65,9 +65,9 @@ export default function FloatingActions() {
                 target={action.external ? "_blank" : undefined}
                 rel={action.external ? "noopener noreferrer" : undefined}
                 onClick={() => handleClick(action)}
-                initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                initial={{ opacity: 0, scale: 0.92, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.5, y: 20 }}
+                exit={{ opacity: 0, scale: 0.92, y: 20 }}
                 transition={{
                   delay: i * 0.08,
                   duration: 0.25,
@@ -87,7 +87,7 @@ export default function FloatingActions() {
         onClick={() => setOpen(!open)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 ${
+        className={`flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-[background-color,box-shadow] duration-300 ${
           open
             ? "bg-slate-800 shadow-black/20"
             : "bg-brand shadow-brand/30"

@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import {
   MessageSquare,
   Brain,
@@ -14,6 +15,7 @@ import {
   ArrowDown,
 } from "lucide-react";
 import AnimateOnScroll from "./AnimateOnScroll";
+import { PremiumIconBadge, type PremiumTone } from "./ui/PremiumIconBadge";
 
 const capabilities = [
   {
@@ -22,6 +24,7 @@ const capabilities = [
     description: "Asistentes conversacionales que resuelven consultas 24/7 con contexto de tu negocio.",
     color: "text-brand",
     bg: "bg-brand/10",
+    tone: "brand" as PremiumTone,
   },
   {
     icon: Brain,
@@ -29,6 +32,7 @@ const capabilities = [
     description: "Agentes automatizados para WhatsApp Business que gestionan ventas y soporte.",
     color: "text-emerald-400",
     bg: "bg-emerald-400/10",
+    tone: "emerald" as PremiumTone,
   },
   {
     icon: FileSearch,
@@ -36,6 +40,7 @@ const capabilities = [
     description: "Retrieval-Augmented Generation para respuestas precisas basadas en tus documentos.",
     color: "text-violet",
     bg: "bg-violet/10",
+    tone: "violet" as PremiumTone,
   },
   {
     icon: Workflow,
@@ -43,6 +48,7 @@ const capabilities = [
     description: "Workflows inteligentes con n8n que conectan tus sistemas automáticamente.",
     color: "text-cyan",
     bg: "bg-cyan/10",
+    tone: "cyan" as PremiumTone,
   },
   {
     icon: ScanText,
@@ -50,6 +56,7 @@ const capabilities = [
     description: "Extracción automática de datos de facturas, contratos y documentos.",
     color: "text-amber-400",
     bg: "bg-amber-400/10",
+    tone: "amber" as PremiumTone,
   },
   {
     icon: Eye,
@@ -57,6 +64,7 @@ const capabilities = [
     description: "Análisis de imágenes y video para control de calidad y monitoreo.",
     color: "text-rose-400",
     bg: "bg-rose-400/10",
+    tone: "rose" as PremiumTone,
   },
   {
     icon: FileText,
@@ -64,6 +72,7 @@ const capabilities = [
     description: "Clasificación, resumen y análisis automático de documentos a escala.",
     color: "text-brand-light",
     bg: "bg-brand-light/10",
+    tone: "brand" as PremiumTone,
   },
 ];
 
@@ -73,30 +82,35 @@ const flowSteps = [
     label: "Cliente",
     sublabel: "WhatsApp / Web / Email",
     color: "from-brand to-brand-dark",
+    tone: "brand" as PremiumTone,
   },
   {
     icon: Brain,
     label: "IA",
     sublabel: "Procesamiento Inteligente",
     color: "from-cyan to-brand",
+    tone: "cyan" as PremiumTone,
   },
   {
     icon: Workflow,
     label: "Automatización",
     sublabel: "n8n / Workflows",
     color: "from-violet to-brand",
+    tone: "violet" as PremiumTone,
   },
   {
     icon: Database,
     label: "Base de Datos",
     sublabel: "PostgreSQL / MongoDB / Qdrant",
     color: "from-brand-dark to-navy",
+    tone: "amber" as PremiumTone,
   },
   {
     icon: LayoutDashboard,
     label: "Dashboard",
     sublabel: "Métricas en Tiempo Real",
     color: "from-cyan to-violet",
+    tone: "rose" as PremiumTone,
   },
 ];
 
@@ -105,8 +119,13 @@ const techStack = [
   "MCP", "RAG", "Pinecone", "Qdrant", "DeepSeek", "Llama",
 ];
 
+// Los valores de cos/sin se redondean: Node (SSR) y el navegador calculan la
+// trigonometría con precisiones ligeramente distintas y React detectaba un
+// hydration mismatch en los style/atributos derivados de estos números.
+const fixed = (v: number) => Math.round(v * 100) / 100;
+
 function NeuralVisualization() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   const orbitAnimation = (duration: number, reverse = false) => ({
     rotate: reverse ? [360, 0] : [0, 360],
@@ -153,8 +172,8 @@ function NeuralVisualization() {
       >
         {nodes.map((node, i) => {
           const rad = (node.angle * Math.PI) / 180;
-          const x = Math.cos(rad) * node.radius;
-          const y = Math.sin(rad) * node.radius;
+          const x = fixed(Math.cos(rad) * node.radius);
+          const y = fixed(Math.sin(rad) * node.radius);
           return (
             <motion.div
               key={i}
@@ -193,8 +212,8 @@ function NeuralVisualization() {
       >
         {innerNodes.map((node, i) => {
           const rad = (node.angle * Math.PI) / 180;
-          const x = Math.cos(rad) * node.radius;
-          const y = Math.sin(rad) * node.radius;
+          const x = fixed(Math.cos(rad) * node.radius);
+          const y = fixed(Math.sin(rad) * node.radius);
           return (
             <motion.div
               key={i}
@@ -232,10 +251,10 @@ function NeuralVisualization() {
           const next = nodes[(i + 1) % nodes.length];
           const rad1 = (node.angle * Math.PI) / 180;
           const rad2 = (next.angle * Math.PI) / 180;
-          const x1 = 190 + Math.cos(rad1) * node.radius;
-          const y1 = 190 + Math.sin(rad1) * node.radius;
-          const x2 = 190 + Math.cos(rad2) * next.radius;
-          const y2 = 190 + Math.sin(rad2) * next.radius;
+          const x1 = fixed(190 + Math.cos(rad1) * node.radius);
+          const y1 = fixed(190 + Math.sin(rad1) * node.radius);
+          const x2 = fixed(190 + Math.cos(rad2) * next.radius);
+          const y2 = fixed(190 + Math.sin(rad2) * next.radius);
           return (
             <motion.line
               key={`outer-${i}`}
@@ -258,10 +277,10 @@ function NeuralVisualization() {
           const inner = innerNodes[i + 1] || innerNodes[0];
           const radO = (outer.angle * Math.PI) / 180;
           const radI = (inner.angle * Math.PI) / 180;
-          const x1 = 190 + Math.cos(radO) * outer.radius;
-          const y1 = 190 + Math.sin(radO) * outer.radius;
-          const x2 = 190 + Math.cos(radI) * inner.radius;
-          const y2 = 190 + Math.sin(radI) * inner.radius;
+          const x1 = fixed(190 + Math.cos(radO) * outer.radius);
+          const y1 = fixed(190 + Math.sin(radO) * outer.radius);
+          const x2 = fixed(190 + Math.cos(radI) * inner.radius);
+          const y2 = fixed(190 + Math.sin(radI) * inner.radius);
           return (
             <motion.line
               key={`cross-${i}`}
@@ -309,7 +328,7 @@ function NeuralVisualization() {
 }
 
 function FlowDiagram() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   return (
     <div className="flex flex-col items-center gap-0">
@@ -324,10 +343,13 @@ function FlowDiagram() {
               delay={i * 0.15}
               className="w-full"
             >
-              <div className="glass-card-dark hover-glow group mx-auto flex max-w-sm items-center gap-4 rounded-2xl p-5 transition-all duration-300">
-                <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${step.color} shadow-lg shadow-brand/20`}>
-                  <Icon className="h-6 w-6 text-white" />
-                </div>
+              <div className="glass-card-dark hover-glow group mx-auto flex max-w-sm items-center gap-4 rounded-2xl p-5">
+                <PremiumIconBadge
+                  icon={Icon}
+                  tone={step.tone}
+                  surface="dark"
+                  size="lg"
+                />
                 <div>
                   <h4 className="font-semibold text-white">{step.label}</h4>
                   <p className="text-sm text-slate-400">{step.sublabel}</p>
@@ -353,7 +375,7 @@ function FlowDiagram() {
 }
 
 export default function AIAgent() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   return (
     <section
@@ -424,9 +446,14 @@ export default function AIAgent() {
                   animation="fadeUp"
                   delay={i * 0.08}
                 >
-                  <div className="glass-card-dark hover-glow group rounded-2xl p-6 transition-all duration-300">
-                    <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${cap.bg} transition-transform duration-300 group-hover:scale-110`}>
-                      <Icon className={`h-6 w-6 ${cap.color}`} />
+                  <div className="glass-card-dark hover-glow group rounded-2xl p-6">
+                    <div className="mb-4 transition-transform duration-300 group-hover:scale-105">
+                      <PremiumIconBadge
+                        icon={Icon}
+                        tone={cap.tone}
+                        surface="dark"
+                        size="md"
+                      />
                     </div>
                     <h4 className="font-semibold text-white">{cap.title}</h4>
                     <p className="mt-2 text-sm leading-relaxed text-slate-400">
@@ -445,7 +472,7 @@ export default function AIAgent() {
             {techStack.map((tech) => (
               <span
                 key={tech}
-                className="rounded-full border border-white/[0.06] bg-white/5 px-4 py-2 text-sm font-medium text-slate-400 transition-all duration-200 hover:border-brand/30 hover:bg-brand/10 hover:text-brand"
+                className="rounded-full border border-white/[0.06] bg-white/5 px-4 py-2 text-sm font-medium text-slate-400 transition-colors duration-200 hover:border-brand/30 hover:bg-brand/10 hover:text-brand"
               >
                 {tech}
               </span>

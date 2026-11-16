@@ -57,7 +57,6 @@ export default async function Image() {
             alignItems: "center",
             gap: "8px",
             marginBottom: "24px",
-            zIndex: 1,
           }}
         >
           <span
@@ -94,7 +93,6 @@ export default async function Image() {
             color: "#94A3B8",
             letterSpacing: "0.1em",
             textTransform: "uppercase",
-            zIndex: 1,
           }}
         >
           <span>Desarrollo</span>

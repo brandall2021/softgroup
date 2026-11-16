@@ -1,7 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { services } from "../config/services";
+import { PremiumIconBadge, type PremiumTone } from "./ui/PremiumIconBadge";
 
 const customEasing: [number, number, number, number] = [0.23, 1, 0.32, 1];
 
@@ -26,8 +28,17 @@ const cardVariants = {
   },
 };
 
+const serviceTones: Record<string, PremiumTone> = {
+  "Desarrollo Web": "brand",
+  "Sistemas Informáticos": "violet",
+  "Inteligencia Artificial": "cyan",
+  Automatización: "emerald",
+  "Networking e Infraestructura": "amber",
+  "Cloud & Ciberseguridad": "rose",
+};
+
 export default function Services() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   return (
     <section
@@ -73,12 +84,12 @@ export default function Services() {
                     : { scale: 1.015, y: -2 }
                 }
                 transition={{ type: "spring", stiffness: 300, damping: 24 }}
-                className={`group relative rounded-[1.5rem] p-[1px] bg-gradient-to-br from-slate-200/50 to-slate-100/30 cursor-default active:scale-[0.98] transition-all duration-200 safe-hover:shadow-lg safe-hover:border-brand/20 ${
+                className={`group relative rounded-[1.5rem] p-[1px] bg-gradient-to-br from-slate-200/50 to-slate-100/30 cursor-default active:scale-[0.98] transition-[box-shadow,border-color] duration-200 safe-hover:shadow-lg safe-hover:border-brand/20 ${
                   service.featured ? "lg:col-span-2" : ""
                 }`}
               >
                 <div
-                  className={`rounded-[calc(1.5rem-1px)] bg-white p-7 h-full transition-all duration-200 ${
+                  className={`rounded-[calc(1.5rem-1px)] bg-white p-7 h-full transition-shadow duration-200 ${
                     service.featured ? "md:p-9" : ""
                   } group-safe-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_20px_-4px_rgba(0,87,217,0.1)]`}
                 >
@@ -87,12 +98,12 @@ export default function Services() {
                       service.featured ? "mb-7" : ""
                     }`}
                   >
-                    <div                     className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#2563EB]/10 transition-all duration-200 group-safe-hover:bg-[#2563EB]/15">
-                      <Icon
-                        className="w-6 h-6 text-[#2563EB]"
-                        strokeWidth={1.5}
-                      />
-                    </div>
+                    <PremiumIconBadge
+                      icon={Icon}
+                      tone={serviceTones[service.title] ?? "brand"}
+                      surface="light"
+                      size={service.featured ? "lg" : "md"}
+                    />
                     <h3
                       className={`font-bold text-[#0F172A] tracking-tight ${
                         service.featured
@@ -115,7 +126,7 @@ export default function Services() {
                     {service.subcategories.map((sub) => (
                       <span
                         key={sub.label}
-                        className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-600 transition-all duration-200 group-safe-hover:bg-[#2563EB]/5 group-safe-hover:text-[#2563EB]"
+                        className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-600 transition-colors duration-200 group-safe-hover:bg-[#2563EB]/5 group-safe-hover:text-[#2563EB]"
                       >
                         {sub.label}
                       </span>

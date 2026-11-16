@@ -2,13 +2,8 @@
 
 import { useRef, useEffect, useCallback, useState } from "react";
 import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
+  motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { ArrowRight, MessageCircle } from "lucide-react";
 
 interface Node {
@@ -46,7 +41,7 @@ function createNodes(width: number, height: number, count: number): Node[] {
 }
 
 export default function Hero() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -327,7 +322,7 @@ export default function Hero() {
             Transformamos Empresas{" "}
             <br className="hidden sm:block" />
             mediante{" "}
-            <span className="gradient-text">Inteligencia Artificial</span>
+            <span className="gradient-text">Inteligencia Artificial</span>{" "}
             <br className="hidden md:block" />
             <span className="text-slate-300">Desarrollo de Software</span>{" "}
             <br className="hidden lg:block" />
@@ -356,7 +351,7 @@ export default function Hero() {
                 scrollTo("contacto");
               }}
               aria-label="Solicitar una demo"
-              className="group btn-glow inline-flex items-center justify-center gap-3 rounded-full bg-brand px-8 py-4 text-sm font-semibold text-white transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/25 active:scale-[0.97]"
+              className="group btn-glow inline-flex items-center justify-center gap-3 rounded-full bg-brand px-8 py-4 text-sm font-semibold text-white transition-[background-color,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/25 active:scale-[0.97]"
             >
               Solicitar una Demo
               <span className="arrow-bounce flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
@@ -368,7 +363,7 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Hablar por WhatsApp"
-              className="whatsapp-pulse inline-flex items-center justify-center gap-3 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-8 py-4 text-sm font-semibold text-emerald-400 backdrop-blur-sm transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-emerald-500/50 hover:bg-emerald-500/20 hover:text-emerald-300 active:scale-[0.97]"
+              className="whatsapp-pulse inline-flex items-center justify-center gap-3 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-8 py-4 text-sm font-semibold text-emerald-400 backdrop-blur-sm transition-[background-color,border-color,color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-emerald-500/50 hover:bg-emerald-500/20 hover:text-emerald-300 active:scale-[0.97]"
             >
               <MessageCircle className="h-4 w-4" />
               Hablar por WhatsApp

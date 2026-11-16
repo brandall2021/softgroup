@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { testimonials } from "../config/testimonials";
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % testimonials.length);
@@ -109,7 +110,7 @@ export default function Testimonials() {
               key={i}
               onClick={() => setCurrent(i)}
               aria-label={`Testimonio ${i + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`h-2 rounded-full transition-[width,background-color] duration-300 ${
                 i === current
                   ? "w-8 bg-brand"
                   : "w-2 bg-slate-300 hover:bg-slate-400"

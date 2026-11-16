@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { MessageCircle, X, Send } from "lucide-react";
 
 interface ChatMessage {
@@ -37,7 +38,7 @@ export default function ChatWidget() {
   const [inputValue, setInputValue] = useState("");
   const hasGreetedRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -137,7 +138,7 @@ export default function ChatWidget() {
             exit={{ opacity: 0, scale: prefersReduced ? 1 : 0.9, y: prefersReduced ? 0 : 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-[380px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-black/15 sm:right-6"
-            style={{ maxHeight: "500px" }}
+            style={{ maxHeight: "500px", transformOrigin: "bottom right" }}
           >
             {/* Header */}
             <div className="flex items-center justify-between bg-[#0F172A] px-5 py-4">
@@ -202,7 +203,7 @@ export default function ChatWidget() {
                                   key={qr.value}
                                   onClick={() => handleQuickReply(qr.value)}
                                   aria-label={qr.label}
-                                  className="rounded-full border border-brand/20 bg-brand/5 px-3.5 py-1.5 text-xs font-semibold text-brand transition-all hover:bg-brand hover:text-white"
+                                  className="rounded-full border border-brand/20 bg-brand/5 px-3.5 py-1.5 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
                                 >
                                   {qr.label}
                                 </button>
@@ -243,7 +244,7 @@ export default function ChatWidget() {
                 <button
                   type="submit"
                   disabled={!inputValue.trim()}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand text-white transition-all hover:bg-brand-dark disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand text-white transition-colors hover:bg-brand-dark disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-label="Enviar mensaje"
                 >
                   <Send className="h-4 w-4" />
@@ -294,7 +295,7 @@ export default function ChatWidget() {
 
 function BudgetMiniForm() {
   const [submitted, setSubmitted] = useState(false);
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   if (submitted) {
     return (
@@ -371,7 +372,7 @@ function BudgetMiniForm() {
 
 function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   if (submitted) {
     return (

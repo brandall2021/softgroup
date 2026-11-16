@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @theme inline {
   --color-brand: #2563EB;
@@ -64,7 +64,7 @@ body {
   background: #475569;
 }
 
-/* Glow effects — inner shadow (anti-AI-slop) */
+/* Glow effects â€” inner shadow (anti-AI-slop) */
 .glow-brand {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -397,7 +397,7 @@ body {
   animation: node-appear 0.5s ease-out forwards;
 }
 
-/* Touch-safe hover variants — only fire on devices with hover capability + fine pointer */
+/* Touch-safe hover variants â€” only fire on devices with hover capability + fine pointer */
 @custom-variant safe-hover {
   @media (hover: hover) and (pointer: fine) {
     &:hover {

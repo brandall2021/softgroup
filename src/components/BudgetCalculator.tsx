@@ -136,7 +136,7 @@ export default function BudgetCalculator() {
               <button
                 onClick={() => setStep((s) => Math.min(3, s + 1))}
                 disabled={!canNext}
-                className="flex items-center gap-1.5 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-brand-dark disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex items-center gap-1.5 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {step === 2 ? "Ver estimación" : "Siguiente"}
                 <ChevronRight className="h-4 w-4" />

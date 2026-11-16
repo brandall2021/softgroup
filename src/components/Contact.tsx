@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import type { FormErrors } from "../types/contact";
 import ContactForm from "./contact/ContactForm";
 import ContactInfo from "./contact/ContactInfo";
@@ -34,7 +35,7 @@ export default function Contact() {
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
   const [mensajeLength, setMensajeLength] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   useEffect(() => {
     if (cooldownRemaining <= 0) return;

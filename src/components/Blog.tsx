@@ -1,12 +1,13 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { ArrowRight, Calendar } from "lucide-react";
 import Link from "next/link";
 import { articles } from "../config/blog";
 
 export default function Blog() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   return (
     <section id="blog" className="relative py-24 sm:py-32">
@@ -40,7 +41,7 @@ export default function Blog() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: prefersReduced ? 0 : i * 0.12 }}
-              className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-all duration-200 safe-hover:-translate-y-1 safe-hover:shadow-xl safe-hover:shadow-slate-200/60"
+              className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition-[transform,box-shadow] duration-200 safe-hover:-translate-y-1 safe-hover:shadow-xl safe-hover:shadow-slate-200/60"
             >
               <div
                 className={`relative h-48 bg-gradient-to-br ${post.gradient}`}
@@ -61,7 +62,7 @@ export default function Blog() {
                   </span>
                 </div>
 
-                <h3 className="mb-3 text-lg font-bold leading-snug text-navy transition-all duration-200 group-safe-hover:text-brand">
+                <h3 className="mb-3 text-lg font-bold leading-snug text-navy transition-colors duration-200 group-safe-hover:text-brand">
                   {post.title}
                 </h3>
                 <p className="mb-5 text-sm leading-relaxed text-slate-500">
@@ -70,7 +71,7 @@ export default function Blog() {
 
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all duration-200 safe-hover:text-brand-dark"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors duration-200 safe-hover:text-brand-dark"
                 >
                   Leer más
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-safe-hover:translate-x-0.5" />

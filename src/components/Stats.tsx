@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { stats, type Stat } from "../config/stats";
+import { PremiumIconBadge, type PremiumTone } from "./ui/PremiumIconBadge";
+
+const statTones: PremiumTone[] = ["brand", "cyan", "violet", "amber", "emerald"];
 
 function formatNumber(n: number): string {
   if (n >= 1000) {
@@ -58,8 +62,14 @@ function StatCard({
       transition={{ duration: prefersReduced ? 0.1 : 0.5, delay: prefersReduced ? 0 : index * 0.12 }}
       className="relative group text-center p-8 glass-card-dark rounded-2xl card-premium"
     >
-      <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/10 text-brand mb-5 group-hover:bg-white/15 transition-colors">
-        <Icon className={stat.iconClassName ?? "w-7 h-7"} />
+      <div className="mb-5 inline-flex transition-transform duration-300 group-hover:scale-[1.04]">
+        <PremiumIconBadge
+          icon={Icon}
+          tone={statTones[index % statTones.length]}
+          surface="dark"
+          size="lg"
+          iconClassName={stat.iconClassName ?? "w-7 h-7"}
+        />
       </div>
 
       <div className="text-4xl md:text-5xl font-bold mb-3 gradient-text-animated">
@@ -78,7 +88,7 @@ function StatCard({
 export default function Stats() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   useEffect(() => {
     const el = sectionRef.current;

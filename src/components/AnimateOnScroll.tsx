@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { type ReactNode } from "react";
 
 type AnimationType = "fadeUp" | "fadeDown" | "fadeLeft" | "fadeRight" | "zoomIn" | "zoomOut" | "flipUp";
@@ -55,9 +56,12 @@ export default function AnimateOnScroll({
   once = true,
   margin = "-80px",
 }: AnimateOnScrollProps) {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
-  const variants = animationVariants[animation];
+  // prefers-reduced-motion: solo opacidad, sin y/scale/rotateX (audit cat. motion)
+  const variants = prefersReduced
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1 } }
+    : animationVariants[animation];
 
   return (
     <motion.div

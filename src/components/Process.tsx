@@ -1,8 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { steps, type Step } from "../config/process";
+import { PremiumIconBadge, type PremiumTone } from "./ui/PremiumIconBadge";
+
+const processTones: PremiumTone[] = ["brand", "violet", "cyan", "emerald", "amber", "rose"];
 
 function StepCard({
   step,
@@ -25,8 +29,14 @@ function StepCard({
       transition={{ duration: prefersReduced ? 0.1 : 0.5, delay: prefersReduced ? 0 : index * 0.15 }}
       className="relative flex flex-col items-center text-center group"
     >
-      <div className="relative z-10 w-20 h-20 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white group-hover:border-brand transition-all duration-300 group-hover:shadow-lg group-hover:shadow-brand/20">
-        <Icon className={step.iconClassName ?? "w-6 h-6"} />
+      <div className="relative z-10 transition-transform duration-300 group-hover:scale-[1.03]">
+        <PremiumIconBadge
+          icon={Icon}
+          tone={processTones[index % processTones.length]}
+          surface="light"
+          size="lg"
+          iconClassName={step.iconClassName ?? "w-6 h-6"}
+        />
       </div>
 
       <span className="mt-4 text-xs font-bold tracking-widest text-brand/60 uppercase">
@@ -45,7 +55,7 @@ function StepCard({
 }
 
 export default function Process() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   return (
     <section id="nosotros" className="relative py-24 md:py-32 bg-white">
@@ -122,8 +132,14 @@ export default function Process() {
                 transition={{ duration: prefersReduced ? 0.1 : 0.4, delay: prefersReduced ? 0 : i * 0.1 }}
                 className="flex items-start gap-6 pl-0"
               >
-                <div className="relative z-10 flex-shrink-0 w-20 h-20 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-300">
-                  <step.icon className={step.iconClassName ?? "w-6 h-6"} />
+                <div className="relative z-10 flex-shrink-0">
+                  <PremiumIconBadge
+                    icon={step.icon}
+                    tone={processTones[i % processTones.length]}
+                    surface="light"
+                    size="lg"
+                    iconClassName={step.iconClassName ?? "w-6 h-6"}
+                  />
                 </div>
                 <div className="pt-2">
                   <span className="text-xs font-bold tracking-widest text-brand/60 uppercase">

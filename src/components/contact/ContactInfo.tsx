@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { MapPin } from "lucide-react";
 import { contactInfo } from "../../config/contact";
 
@@ -30,7 +31,7 @@ function GithubIcon({ className }: { className?: string }) {
 const customEasing: [number, number, number, number] = [0.23, 1, 0.32, 1];
 
 export default function ContactInfo() {
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   return (
     <motion.div

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 
 const serviceOptions = [
   "Desarrollo Web",
@@ -14,7 +15,7 @@ const serviceOptions = [
 
 export default function BudgetMiniForm() {
   const [submitted, setSubmitted] = useState(false);
-  const prefersReduced = useReducedMotion();
+  const prefersReduced = useHydrationSafeReducedMotion();
 
   if (submitted) {
     return (

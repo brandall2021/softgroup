@@ -4,6 +4,8 @@ import { useState } from "react";
 import { MapPin, Phone, Mail, ArrowRight } from "lucide-react";
 import { footerLinks, socialLinks } from "../config/navigation";
 import AnimateOnScroll from "./AnimateOnScroll";
+import { BrandLogo } from "./ui/BrandLogo";
+import { PremiumIconBadge } from "./ui/PremiumIconBadge";
 
 function LinkedinIcon({ className }: { className?: string }) {
   return (
@@ -68,8 +70,7 @@ export default function Footer() {
           {/* Logo + description */}
           <AnimateOnScroll animation="fadeUp" delay={0} className="sm:col-span-2 lg:col-span-1">
             <a href="#inicio" onClick={(e) => { e.preventDefault(); scrollTo("#inicio"); }} className="inline-flex items-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo-full.png" alt="SoftGroup" className="h-8 w-auto" />
+              <BrandLogo context="footer" />
             </a>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-slate-400">
               Soluciones digitales inteligentes. Desarrollo de software, agentes de IA
@@ -85,9 +86,15 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-slate-400 transition-all duration-200 safe-hover:bg-brand/20 safe-hover:text-brand safe-hover:scale-110"
+                  className="text-slate-400 transition-transform duration-200 safe-hover:scale-105"
                 >
-                  <Icon className="h-4 w-4" />
+                  <PremiumIconBadge
+                    icon={Icon}
+                    tone="brand"
+                    surface="dark"
+                    size="md"
+                    iconClassName="h-4 w-4"
+                  />
                 </a>
                 ) : null;
               })}
@@ -105,7 +112,7 @@ export default function Footer() {
                   <a
                     href="#servicios"
                     onClick={(e) => { e.preventDefault(); scrollTo("#servicios"); }}
-                    className="text-sm text-slate-400 transition-all duration-200 safe-hover:text-white"
+                    className="text-sm text-slate-400 transition-colors duration-200 safe-hover:text-white"
                   >
                     {service}
                   </a>
@@ -125,7 +132,7 @@ export default function Footer() {
                   <a
                     href={href}
                     onClick={(e) => { e.preventDefault(); scrollTo(href); }}
-                    className="text-sm text-slate-400 transition-all duration-200 safe-hover:text-white"
+                    className="text-sm text-slate-400 transition-colors duration-200 safe-hover:text-white"
                   >
                     {label}
                   </a>
@@ -146,13 +153,13 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3 text-sm text-slate-400">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                <a href="tel:+525512345678" className="transition-all duration-200 safe-hover:text-white">
+                <a href="tel:+525512345678" className="transition-colors duration-200 safe-hover:text-white">
                   +52 55 1234 5678
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm text-slate-400">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                <a href="mailto:hola@softgroup.com" className="transition-all duration-200 safe-hover:text-white">
+                <a href="mailto:hola@softgroup.com" className="transition-colors duration-200 safe-hover:text-white">
                   hola@softgroup.com
                 </a>
               </li>
@@ -173,11 +180,11 @@ export default function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="tu@email.com"
                   required
-                  className="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition-all focus:border-brand/50 focus:ring-1 focus:ring-brand/50"
+                  className="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition-[border-color,box-shadow] focus:border-brand/50 focus:ring-1 focus:ring-brand/50"
                 />
                 <button
                   type="submit"
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand text-white transition-all duration-200 safe-hover:bg-brand-dark"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand text-white transition-colors duration-200 safe-hover:bg-brand-dark"
                   aria-label="Suscribirse al newsletter"
                 >
                   <ArrowRight className="h-4 w-4" />
@@ -196,21 +203,21 @@ export default function Footer() {
               <a
                 href="#"
                 aria-label="Política de Privacidad"
-                className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
+                className="text-xs text-slate-500 transition-colors duration-200 safe-hover:text-slate-300"
               >
                 Política de Privacidad
               </a>
               <a
                 href="#"
                 aria-label="Términos de Uso"
-                className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
+                className="text-xs text-slate-500 transition-colors duration-200 safe-hover:text-slate-300"
               >
                 Términos de Uso
               </a>
               <a
                 href="#"
                 aria-label="Política de Cookies"
-                className="text-xs text-slate-500 transition-all duration-200 safe-hover:text-slate-300"
+                className="text-xs text-slate-500 transition-colors duration-200 safe-hover:text-slate-300"
               >
                 Cookies
               </a>

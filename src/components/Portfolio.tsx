@@ -47,7 +47,7 @@ export default function Portfolio() {
               onClick={() => setActiveFilter(cat)}
               aria-pressed={activeFilter === cat}
               aria-label={`Filtrar por ${cat}`}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
+              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-[background-color,color,box-shadow] duration-200 ${
                 activeFilter === cat
                   ? "bg-brand text-white shadow-lg shadow-brand/25"
                   : "bg-white text-slate-600 safe-hover:bg-brand/10 safe-hover:text-brand border border-slate-200"
@@ -70,9 +70,9 @@ export default function Portfolio() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
+                transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] as const }}
                 whileHover={{ scale: 1.02, y: -4 }}
-                className="group bg-white rounded-2xl overflow-hidden shadow-sm safe-hover:shadow-xl transition-all duration-200 safe-hover:-translate-y-1 border border-slate-100"
+                className="group bg-white rounded-2xl overflow-hidden shadow-sm safe-hover:shadow-xl transition-shadow duration-200 border border-slate-100"
               >
                 <div
                   className={`relative h-48 bg-gradient-to-br ${project.gradient} flex items-center justify-center overflow-hidden`}
@@ -87,7 +87,7 @@ export default function Portfolio() {
                 </div>
 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-navy mb-3 group-safe-hover:text-brand transition-all duration-200">
+                  <h3 className="text-xl font-bold text-navy mb-3 group-safe-hover:text-brand transition-colors duration-200">
                     {project.title}
                   </h3>
                   <p className="text-slate-500 text-sm leading-relaxed mb-5">
@@ -108,7 +108,7 @@ export default function Portfolio() {
                   <a
                     href="#"
                     aria-label={`Ver proyecto: ${project.title}`}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-brand safe-hover:text-brand-dark transition-all duration-200"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-brand safe-hover:text-brand-dark transition-colors duration-200"
                   >
                     Ver proyecto
                     <ArrowRight className="w-4 h-4 group-safe-hover:translate-x-1 transition-transform duration-200" />
